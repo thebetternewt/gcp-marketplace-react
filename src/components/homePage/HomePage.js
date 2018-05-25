@@ -1,0 +1,75 @@
+import React from 'react';
+import styled from 'styled-components';
+import ReactFitText from 'react-fittext';
+
+import ContentContainer from '../common/ContentContainer';
+import Hero from './Hero';
+
+import cityImage from '../../images/buildings-city-community.jpg';
+
+const HomePage = styled.div`
+  background-color: #fff;
+  font-family: 'EB Garamond';
+  font-size: 1.2rem;
+
+  h2 {
+    font-family: 'Montserrat', 'Helvetica', Arial, sans-serif;
+    font-size: 2.3rem;
+    font-weight: 300;
+    margin: 1em 0 0.5em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  h5 {
+    font-family: 'Montserrat', 'Helvetica', Arial, sans-serif;
+    font-size: 1.3rem;
+    font-weight: 300;
+    margin: 1em 0;
+    text-align: center;
+    text-transform: uppercase;
+  }
+`;
+
+export default () => (
+  <HomePage>
+    <Hero backgroundImage={cityImage}>
+      <ReactFitText>
+        <h1>The Marketplace</h1>
+      </ReactFitText>
+    </Hero>
+    <ContentContainer>
+      <h2>Teachers</h2>
+      <h5>Training the Next Generation in the Arts</h5>
+      <p>
+        Our Marketplace teachers are seen globally but they serve locally. Here,
+        you can connect to background certified teachers in a family safe
+        environment for something as simple as one-on-one lessons, or if you're
+        a teacher, you can join us, our T.V. network, and our platform, to share
+        what you know with the world.
+      </p>
+      <h2>Innovators</h2>
+      <h5>
+        God-Glorifying work that is done locally that we share and network
+        globally
+      </h5>
+      <p>
+        Our Marketplace innovators are seen globally, but they serve locally.
+        Here, you can connect to a host of creatives, who are excellent in
+        Christlikeness, character, and craft, in order to get what you need
+        done, DONE! Or, if you have a talent, a skill, a project, or work you'd
+        like to promote and make available to the Body of Christ, you can fill
+        out THIS FORM and be seen in our network, and beyond.
+      </p>
+      <h2>Partners</h2>
+      <h5>Our Partners Work Locally to REACH Globally</h5>
+      <p>
+        Everyone of our partners gives something to Garden City in order to
+        enable our artists, innovators, and creatives to work their ideas into
+        practical and thoughtful methods of building up the church in worship
+        and mission. If your work or entity can offer services to our network
+        that can help empower those in our sphere of influence, tell us about it
+        HERE, and we'd love to promote your work as well.
+      </p>
+    </ContentContainer>
+  </HomePage>
+);
