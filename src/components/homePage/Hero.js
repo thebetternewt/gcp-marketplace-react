@@ -17,15 +17,17 @@ const Hero = styled.div`
   h1 {
     color: #fff;
     font-family: 'Roboto Slab', 'sans-serif';
-    font-size: 4rem;
+    font-size: 3rem;
     font-weight: 400;
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
+
+
 `;
 
 const Filter = styled.div`
-  background-color: rgba(61, 153, 145, 0.7);
+  background-color: rgba(70, 129, 181, 0.7);
   height: 100%;
   left: 0;
   position: absolute;
@@ -70,17 +72,14 @@ const ActionButton = styled.button`
   }
 `;
 
-export default props => {
-  return (
-    <Hero backgroundImage={props.backgroundImage}>
-      <Filter />
-      <ContentContainer>
-        {props.children}
-        <ActionButton>
-          Create Your Profile{' '}
-          <i className="far fa-chevron-circle-right fa-lg" />
-        </ActionButton>
-      </ContentContainer>
-    </Hero>
-  );
-};
+export default props => (
+  <Hero backgroundImage={props.backgroundImage}>
+    <Filter />
+    <ContentContainer>
+      {props.children}
+      <ActionButton>
+        Create Your Profile <i className="far fa-chevron-circle-right fa-lg" />
+      </ActionButton>
+    </ContentContainer>
+  </Hero>
+);

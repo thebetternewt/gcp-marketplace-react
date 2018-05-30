@@ -5,15 +5,15 @@ import styled from 'styled-components';
 import Tag from '../common/Tag';
 
 const ProfileItem = styled.div`
-  align-items: center;
   background-color: #fff;
-  /* border: 1px solid rgba(160, 164, 170, 0.); */
   box-shadow: 3px 3px 10px rgba(160, 164, 170, 0.9);
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  margin: 15px;
-  padding: 10px;
+  margin: 10px 0;
+  padding: 15px;
   text-align: left;
+  width: 100%;
 
   h3 {
     margin-bottom: 1rem;
@@ -35,10 +35,17 @@ const ProfileItem = styled.div`
     font-size: 16px;
     padding: 5px;
   }
+
+  @media (min-width: 800px) {
+    align-items: center;
+    flex-direction: row;
+  }
 `;
 
-export default props => {
-  const { id, name, bio, categories } = props.profile;
+export default (props) => {
+  const {
+ id, name, bio, categories 
+} = props.profile;
   const categoryTags = categories.map(cat => (
     <Tag key={cat} bgColor="lightGreen" text={cat.trim()} />
   ));

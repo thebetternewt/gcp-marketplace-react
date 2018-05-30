@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import ReactFitText from 'react-fittext';
 
 import ContentContainer from '../common/ContentContainer';
 import Hero from './Hero';
 
 import cityImage from '../../images/buildings-city-community.jpg';
+import marketplaceLogo from '../../images/gcp_marketplace_logo.png';
 
 const HomePage = styled.div`
   background-color: #fff;
@@ -33,9 +33,7 @@ const HomePage = styled.div`
 export default () => (
   <HomePage>
     <Hero backgroundImage={cityImage}>
-      <ReactFitText>
-        <h1>The Marketplace</h1>
-      </ReactFitText>
+      <HeroImage src={marketplaceLogo} alt="The Marketplace" />
     </Hero>
     <ContentContainer>
       <h2>Teachers</h2>
@@ -73,3 +71,8 @@ export default () => (
     </ContentContainer>
   </HomePage>
 );
+
+const HeroImage = styled.img`
+  width: 80%;
+  max-width: 90vw;
+`;

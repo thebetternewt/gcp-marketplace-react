@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import NavigationItems from './NavigationItems';
+
 import logo from '../../images/logos/gcp-logo-white.png';
-import userImage from '../../images/user.png';
 
 const Header = styled.div`
   background-color: #333;
@@ -17,6 +18,21 @@ const Header = styled.div`
   top: 0;
   width: 100%;
   z-index: 100;
+
+  nav {
+    display: none;
+  }
+
+  @media (min-width: 800px) {
+    .menu-button {
+      display: none;
+    }
+
+    nav {
+      display: block;
+      height: 100%;
+    }
+  }
 `;
 
 const Container = styled.div`
@@ -50,47 +66,8 @@ const Brand = styled.div`
   }
 
   @media (min-width: 800px) {
-    font-size: 24px;
-  }
-`;
-
-const Nav = styled.nav`
-  ul {
-    align-items: center;
-    display: flex;
-    list-style: none;
-    li {
-      margin-left: 20px;
-    }
-  }
-  a {
-    align-items: center;
-    display: flex;
-    height: 30px;
-    padding: 5px 10px 7px;
-    position: relative;
-    &:after {
-      background-color: #43a7ff;
-      bottom: -4px;
-      content: '';
-      display: block;
-      height: 3px;
-      left: 50%;
-      position: absolute;
-      transform: translateX(-50%);
-      transition: width 200ms ease-out;
-      width: 0;
-    }
-  }
-  .active {
-    &:after {
-      width: 100%;
-    }
-  }
-
-  .profile-link {
-    img {
-      margin-right: 10px;
+    span {
+      font-size: 24px;
     }
   }
 `;
@@ -104,20 +81,18 @@ export default props => (
           <span>The Marketplace</span>
         </Brand>
       </Link>
-      <Nav>
-        <ul>
-          <li>
-            <NavLink to="/profiles">Browse Profiles</NavLink>
-          </li>
-          <li>
-            {/* <NavLink to="/auth">Login</NavLink> */}
-            <NavLink to="/profile/1" className="profile-link">
-              <img src={userImage} height="36" alt="" />
-              <span>My Profile</span>
-            </NavLink>
-          </li>
-        </ul>
-      </Nav>
+      <nav>
+        <NavigationItems />
+      </nav>
+      <MenuButton className="menu-button" onClick={props.toggleSideDrawer}>
+        <i className="fal fa-bars fa-3x" />
+      </MenuButton>
     </Container>
   </Header>
 );
+
+const MenuButton = styled.button`
+  background-color: transparent;
+  color: #fff;
+  border: none;
+`;
