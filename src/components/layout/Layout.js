@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Header from './Header';
 import SideDrawer from './SideDrawer';
@@ -19,17 +20,30 @@ class Layout extends Component {
 
   render() {
     return (
-      <div>
+      <LayoutContainer>
         <Header toggleSideDrawer={this.toggleSideDrawer} />
         <SideDrawer
           toggle={this.toggleSideDrawer}
           open={this.state.sideDrawerOpen}
         />
-        {this.props.children}
+        <LayoutBody>{this.props.children}</LayoutBody>
         <Footer />
-      </div>
+      </LayoutContainer>
     );
   }
 }
 
 export default Layout;
+
+const LayoutContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
+
+const LayoutBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-top: 60px;
+`;

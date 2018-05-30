@@ -6,8 +6,9 @@ import NavigationItems from './NavigationItems';
 const Container = styled.div`
   background-color: #cfcfcf;
   position: fixed;
-  width: 280px;
+  width: auto;
   max-width: 70%;
+  max-width: 280px;
   height: 100%;
   right: 0;
   top: 0;
@@ -40,7 +41,7 @@ const Backdrop = styled.div`
 const SideDrawer = props => (
   <React.Fragment>
     {props.open && <Backdrop onClick={props.toggle} />}
-    <Container open={props.open}>
+    <Container open={props.open} onClick={props.toggle}>
       <NavigationItems />
     </Container>
   </React.Fragment>

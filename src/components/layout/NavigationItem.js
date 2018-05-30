@@ -30,8 +30,8 @@ const NavigationLink = styled(NavLink)`
   align-items: center;
   display: flex;
   height: 60px;
-  justify-content: flex-end;
-  padding: 0 30px 0 20px;
+  justify-content: flex-start;
+  padding: 0 30px 0 30px;
   position: relative;
   width: 100%;
 
@@ -57,7 +57,7 @@ const NavigationLink = styled(NavLink)`
   @media (min-width: 800px) {
     height: 100%;
     justify-content: center;
-    padding-right: 10px;
+    padding: 0 15px;
     width: auto;
 
     &:after {

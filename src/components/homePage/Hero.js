@@ -27,7 +27,8 @@ const Hero = styled.div`
 `;
 
 const Filter = styled.div`
-  background-color: rgba(70, 129, 181, 0.7);
+  /* background-color: rgba(70, 129, 181, 0.7); */
+  background-color: rgba(0, 0, 0, 0.7);
   height: 100%;
   left: 0;
   position: absolute;
@@ -45,41 +46,9 @@ const ContentContainer = styled.div`
   z-index: 2;
 `;
 
-const ActionButton = styled.button`
-  align-items: center;
-  background-color: transparent;
-  border: 3px solid #fff;
-  border-radius: 100px;
-  display: flex;
-  color: #fff;
-  cursor: pointer;
-  font-family: 'Montserrat', helvetica, arial, sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  padding: 0.8em 1.5em;
-  text-transform: uppercase;
-  transition: all 200ms ease-out;
-
-  i {
-    margin-left: 8px;
-  }
-
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: #fff;
-    color: rgb(61, 153, 145);
-  }
-`;
-
 export default props => (
   <Hero backgroundImage={props.backgroundImage}>
     <Filter />
-    <ContentContainer>
-      {props.children}
-      <ActionButton>
-        Create Your Profile <i className="far fa-chevron-circle-right fa-lg" />
-      </ActionButton>
-    </ContentContainer>
+    <ContentContainer>{props.children}</ContentContainer>
   </Hero>
 );

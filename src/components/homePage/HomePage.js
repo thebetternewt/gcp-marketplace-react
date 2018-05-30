@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import ContentContainer from '../common/ContentContainer';
@@ -30,10 +31,42 @@ const HomePage = styled.div`
   }
 `;
 
+const ActionButton = styled.button`
+  align-items: center;
+  background-color: transparent;
+  border: 3px solid #fff;
+  border-radius: 100px;
+  display: flex;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Montserrat', helvetica, arial, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 0.8em 1.5em;
+  text-transform: uppercase;
+  transition: all 200ms ease-out;
+
+  i {
+    margin-left: 8px;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #fff;
+    color: rgb(70, 129, 181);
+  }
+`;
+
 export default () => (
   <HomePage>
     <Hero backgroundImage={cityImage}>
       <HeroImage src={marketplaceLogo} alt="The Marketplace" />
+      <Link to="/signup">
+        <ActionButton>
+          Join Today <i className="far fa-chevron-circle-right fa-lg" />
+        </ActionButton>
+      </Link>
     </Hero>
     <ContentContainer>
       <h2>Teachers</h2>
@@ -74,5 +107,6 @@ export default () => (
 
 const HeroImage = styled.img`
   width: 80%;
-  max-width: 90vw;
+  max-width: 400px;
+  margin-bottom: 2rem;
 `;
