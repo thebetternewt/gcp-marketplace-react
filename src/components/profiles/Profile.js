@@ -132,67 +132,70 @@ const Contributions = styled.div`
   padding: 0 15px;
 `;
 
-export default class ProfilePage extends Component {
-  render() {
-    console.log(this.props.match.params.id);
-    const profile = profiles[this.props.match.params.id - 1];
+const ProfilePage = (props) => {
+  const profile = profiles[this.props.match.params.id - 1];
 
-    const { name, bio, categories } = profile;
+  const { name, bio, categories } = profile;
 
-    const categoryTags = categories.map((cat, index) => (
-      <Tag key={index} bgColor="yellow" text={cat} className="tag" />
-    ));
+  const categoryTags = categories.map((cat, index) => (
+    <Tag key={index} bgColor="yellow" text={cat} className="tag" />
+  ));
 
-    return (
-      <ContentContainer>
-        <Profile>
-          <div className="col-1">
-            <div className="profile-image">
-              <img src={this.props.profileImage} alt="Profile Image" />
-            </div>
-            <h3 className="name">{name}</h3>
-            <SocialLinks>
-              <ul>
-                <li>
-                  <i className="fab fa-twitter" />
-                </li>
-                <li>
-                  <i className="fab fa-facebook " />
-                </li>
-                <li>
-                  <i className="fab fa-linkedin " />
-                </li>
-                <li>
-                  <i className="fab fa-instagram " />
-                </li>
-              </ul>
-            </SocialLinks>
-            <Categories>
-              <span className="label">Focused on:</span>
-              {categoryTags}
-            </Categories>
+  return (
+    <ContentContainer>
+      <Profile>
+        <div className="col-1">
+          <div className="profile-image">
+            <img src={props.profileImage} alt="" />
           </div>
-          <div className="col-2">
-            <div className="bio">
-              <h4>Bio:</h4>
-              <p>{bio.long || `${name} doesn't have a bio yet.`}</p>
-            </div>
-
-            <Skills>
-              <span className="label">Skills:</span>
-              {categoryTags}
-            </Skills>
-            <Contributions>
-              <h4>Contributions:</h4>
-              <p>COMING SOON!</p>
-            </Contributions>
+          <h3 className="name">{name}</h3>
+          <SocialLinks>
+            <ul>
+              <li>
+                <i className="fab fa-twitter" />
+              </li>
+              <li>
+                <i className="fab fa-facebook " />
+              </li>
+              <li>
+                <i className="fab fa-linkedin " />
+              </li>
+              <li>
+                <i className="fab fa-instagram " />
+              </li>
+            </ul>
+          </SocialLinks>
+          <Categories>
+            <span className="label">Focused on:</span>
+            {categoryTags}
+          </Categories>
+        </div>
+        <div className="col-2">
+          <div className="bio">
+            <h4>Bio:</h4>
+            <p>{bio.long || `${name} doesn't have a bio yet.`}</p>
           </div>
-        </Profile>
-      </ContentContainer>
-    );
-  }
-}
+
+          <Skills>
+            <span className="label">Skills:</span>
+            {categoryTags}
+          </Skills>
+          <Contributions>
+            <h4>Contributions:</h4>
+            <p>COMING SOON!</p>
+          </Contributions>
+        </div>
+      </Profile>
+    </ContentContainer>
+  );
+};
+
+export default ProfilePage;
+
+ProfilePage.propTypes = {
+  profileImage: PropTypes.string,
+};
 
 ProfilePage.defaultProps = {
-  profileImage: userImage
+  profileImage: userImage,
 };

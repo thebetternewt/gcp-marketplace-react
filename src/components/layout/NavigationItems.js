@@ -14,7 +14,8 @@ const NavigationItems = () => (
         <span>My Profile</span>
       </ProfileLink>
     </NavigationItem>
-    <NavigationItem link="/signup">Sign Up</NavigationItem>
+    {/* <NavigationItem link="/signup">Sign Up</NavigationItem> */}
+    <NavigationItem link="/login">Log In</NavigationItem>
   </LinkList>
 );
 

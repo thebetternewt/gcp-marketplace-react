@@ -7,11 +7,12 @@
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
-    "react-fittext": "^1.0.0",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4",
-    "styled-components": "^3.2.6",
-    "webfontloader": "^1.6.28"
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^3.2.6"
   },
   "scripts": {
     "start": "react-scripts start",

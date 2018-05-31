@@ -4,24 +4,17 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-import { BrowserRouter } from 'react-router-dom';
-// import WebFont from 'webfontloader';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
-// WebFont.load({
-//   google: {
-//     families: [
-//       'Roboto Slab:400,500,700',
-//       'Raleway:400,500,700',
-//       'Montserrat:400,500,700',
-//       'EB Garamond'
-//     ]
-//   }
-// });
+import { BrowserRouter } from 'react-router-dom';
 
 const app = (
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );
 
 ReactDOM.render(app, document.getElementById('root'));

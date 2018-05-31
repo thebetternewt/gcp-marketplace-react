@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ContentContainer = styled.div`
+const Container = styled.div`
   align-items: ${props => props.align || 'center'};
   display: flex;
   flex-direction: column;
@@ -13,6 +13,8 @@ const ContentContainer = styled.div`
   z-index: 2;
 `;
 
-export default props => (
-  <ContentContainer align={props.align}>{props.children}</ContentContainer>
+const ContentContainer = props => (
+  <Container align={props.align}>{props.children}</Container>
 );
+
+export default ContentContainer;
