@@ -1,44 +1,96 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import ContentContainer from '../common/ContentContainer';
 import Tag from '../common/Tag';
 
-import userImage from '../../images/user.png';
 import profiles from '../../data/profiles';
 
-const Profile = styled.div`
+const Profile = props => {
+  const profile = profiles[0];
+
+  const { categories } = profile;
+
+  const categoryTags = categories.map((cat, index) => (
+    <Tag key={index} bgColor="yellow" text={cat} className="tag" />
+  ));
+
+  return (
+    <ContentContainer>
+      <ProfileLayout>
+        <div className="col-1">
+          <ProfileImage>
+            <img src={props.profileImage} alt={props.name} />
+          </ProfileImage>
+          <h3 className="name">{props.name}</h3>
+          <SocialLinks>
+            <ul>
+              <li>
+                <i className="fab fa-twitter" />
+              </li>
+              <li>
+                <i className="fab fa-facebook " />
+              </li>
+              <li>
+                <i className="fab fa-linkedin " />
+              </li>
+              <li>
+                <i className="fab fa-instagram " />
+              </li>
+            </ul>
+          </SocialLinks>
+          <Categories>
+            <span className="label">Focused on:</span>
+            {categoryTags}
+          </Categories>
+        </div>
+        <div className="col-2">
+          <div className="bio">
+            <h4>Bio:</h4>
+            <p>{props.bio || `${props.name} doesn't have a bio yet.`}</p>
+          </div>
+
+          <Skills>
+            <span className="label">Skills:</span>
+            {categoryTags}
+          </Skills>
+          <Contributions>
+            <h4>Contributions:</h4>
+            <p>COMING SOON!</p>
+          </Contributions>
+        </div>
+      </ProfileLayout>
+    </ContentContainer>
+  );
+};
+
+Profile.propTypes = {
+  profileImage: PropTypes.string,
+  name: PropTypes.string,
+  bio: PropTypes.string,
+};
+
+Profile.defaultProps = {
+  profileImage: null,
+  name: null,
+  bio: null,
+};
+
+export default Profile;
+
+const ProfileLayout = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
   padding: 25px 0;
   width: 100%;
 
-  .col-1 {
-    /* align-items: center; */
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
+  .col-1,
   .col-2 {
     display: flex;
     flex-direction: column;
     width: 100%;
-  }
-
-  .profile-image {
-    align-self: center;
-    background-color: #777;
-    border-radius: 999px;
-    box-shadow: 2px 3px 12px rgba(0, 0, 0, 0.2);
-    height: 200px;
-    width: 200px;
-
-    img {
-      width: 100%;
-    }
   }
 
   .name {
@@ -66,6 +118,20 @@ const Profile = styled.div`
     .col-2 {
       margin-left: 20px;
     }
+  }
+`;
+
+const ProfileImage = styled.div`
+  align-self: center;
+  background-color: #777;
+  border-radius: 999px;
+  box-shadow: 2px 3px 12px rgba(0, 0, 0, 0.2);
+  height: 200px;
+  width: 200px;
+
+  img {
+    width: 100%;
+    border-radius: 999px;
   }
 `;
 
@@ -131,71 +197,3 @@ const Contributions = styled.div`
   min-height: 300px;
   padding: 0 15px;
 `;
-
-const ProfilePage = (props) => {
-  const profile = profiles[this.props.match.params.id - 1];
-
-  const { name, bio, categories } = profile;
-
-  const categoryTags = categories.map((cat, index) => (
-    <Tag key={index} bgColor="yellow" text={cat} className="tag" />
-  ));
-
-  return (
-    <ContentContainer>
-      <Profile>
-        <div className="col-1">
-          <div className="profile-image">
-            <img src={props.profileImage} alt="" />
-          </div>
-          <h3 className="name">{name}</h3>
-          <SocialLinks>
-            <ul>
-              <li>
-                <i className="fab fa-twitter" />
-              </li>
-              <li>
-                <i className="fab fa-facebook " />
-              </li>
-              <li>
-                <i className="fab fa-linkedin " />
-              </li>
-              <li>
-                <i className="fab fa-instagram " />
-              </li>
-            </ul>
-          </SocialLinks>
-          <Categories>
-            <span className="label">Focused on:</span>
-            {categoryTags}
-          </Categories>
-        </div>
-        <div className="col-2">
-          <div className="bio">
-            <h4>Bio:</h4>
-            <p>{bio.long || `${name} doesn't have a bio yet.`}</p>
-          </div>
-
-          <Skills>
-            <span className="label">Skills:</span>
-            {categoryTags}
-          </Skills>
-          <Contributions>
-            <h4>Contributions:</h4>
-            <p>COMING SOON!</p>
-          </Contributions>
-        </div>
-      </Profile>
-    </ContentContainer>
-  );
-};
-
-export default ProfilePage;
-
-ProfilePage.propTypes = {
-  profileImage: PropTypes.string,
-};
-
-ProfilePage.defaultProps = {
-  profileImage: userImage,
-};

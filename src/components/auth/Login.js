@@ -59,7 +59,7 @@ class Login extends Component {
               onChange={this.handleChange}
               value={this.state.password}
             />
-            <SubmitButton>Sign up</SubmitButton>
+            <SubmitButton>Log in</SubmitButton>
           </form>
           <p>
             Don't have an account?{' '}
@@ -73,7 +73,21 @@ class Login extends Component {
   }
 }
 
-export default connect(null, { loginUser })(Login);
+Login.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  redirectPath: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = state => ({
+  loading: state.auth.loading,
+  isAuthenticated: state.auth.token !== null,
+  redirectPath: state.auth.authRedirectPath,
+  errors: state.errors.errors,
+});
+
+export default connect(mapStateToProps, { loginUser })(Login);
 
 const TextInput = styled.input`
   display: block;

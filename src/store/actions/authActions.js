@@ -3,24 +3,30 @@ import axios from 'axios';
 
 import {
   GET_ERRORS,
-  SET_CURRENT_USER,
+  // SET_CURRENT_USER,
   AUTH_BEGIN,
   AUTH_SUCCESS,
   AUTH_FAILED,
+  AUTH_LOGOUT,
+  SET_USER_DATA,
 } from './types';
 
 // URL for Firebase Signup
-const registerUrl =
-  'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAqhMK8Ga1sqbOIS94OzU7MTz9_JR8EPwg';
+const registerUrl = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${
+  process.env.REACT_APP_FIREBASE_API_KEY
+}`;
 
-const setAccountInfoUrl =
-  'https://www.googleapis.com/identitytoolkit/v3/relyingparty/setAccountInfo?key=AIzaSyAqhMK8Ga1sqbOIS94OzU7MTz9_JR8EPwg';
+const setAccountInfoUrl = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/setAccountInfo?key=${
+  process.env.REACT_APP_FIREBASE_API_KEY
+}`;
 
-const loginUrl =
-  'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyAqhMK8Ga1sqbOIS94OzU7MTz9_JR8EPwg';
+const loginUrl = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${
+  process.env.REACT_APP_FIREBASE_API_KEY
+}`;
 
-const userDataUrl =
-  'https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=AIzaSyAqhMK8Ga1sqbOIS94OzU7MTz9_JR8EPwg';
+const userDataUrl = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=${
+  process.env.REACT_APP_FIREBASE_API_KEY
+}`;
 
 // Register User
 export const registerUser = ({
@@ -53,55 +59,44 @@ export const registerUser = ({
     // Register new user
     axios
       .post(registerUrl, authData)
-      .then(
-        res => {
-          console.log(res.data);
-          const { idToken, localId, expiresIn } = res.data;
+      .then(res => {
+        const { idToken, localId, expiresIn } = res.data;
 
-          // calc expiry date in ms
-          const expDate = new Date(new Date().getTime() + expiresIn * 1000);
+        // calc expiry date in ms
+        const expDate = new Date(new Date().getTime() + expiresIn * 1000);
 
-          // Set auth items in localStorage
-          localStorage.setItem('token', idToken);
-          localStorage.setItem('expDate', expDate);
+        // Set auth items in localStorage
+        localStorage.setItem('token', idToken);
+        localStorage.setItem('expDate', expDate);
 
-          // Add additional user info
-          const accountInfo = {
-            idToken: idToken,
-            displayName: name,
-          };
+        // Add additional user info
+        const accountInfo = {
+          idToken,
+          displayName: name,
+          photoUrl,
+        };
 
-          axios
-            .post(setAccountInfoUrl, accountInfo)
-            .then(res => {
-              console.log(res.data);
+        axios
+          .post(setAccountInfoUrl, accountInfo)
+          .then(acctInfoResult => {
+            const user = {
+              name: acctInfoResult.data.displayName,
+              photoUrl: acctInfoResult.data.photoUrl,
+              userId: localId,
+            };
 
-              const user = {
-                name: res.data.displayName,
-                photoUrl: res.data.photoUrl,
-                userId: localId,
-              };
+            // Set user info in localStorage
+            localStorage.setItem('user', JSON.stringify(user));
 
-              // Set user info in localStorage
-              localStorage.setItem('user', JSON.stringify(user));
-
-              dispatch({
-                type: AUTH_SUCCESS,
-                token: idToken,
-                userId: localId,
-              });
-            })
-            .catch(err => {
-              console.log(err.response.data);
+            dispatch({
+              type: AUTH_SUCCESS,
+              token: idToken,
+              userId: localId,
             });
-        }
-        // dispatch({
-        //   type: SET_CURRENT_USER,
-        //   payload: res.data,
-        // }),
-      )
+          })
+          .catch(err => console.log(err.response.data));
+      })
       .catch(err => {
-        console.log(err.response.data.error);
         dispatch({
           type: GET_ERRORS,
           payload: err.response.data.error,
@@ -113,6 +108,7 @@ export const registerUser = ({
   }
 };
 
+// Login User
 export const loginUser = ({ email, password }) => dispatch => {
   const authData = {
     email,
@@ -122,7 +118,7 @@ export const loginUser = ({ email, password }) => dispatch => {
   axios
     .post(loginUrl, authData)
     .then(res => {
-      console.log(res.data);
+      // console.log(res.data);
       const { idToken, localId, expiresIn } = res.data;
 
       // calc expiry date in ms
@@ -134,13 +130,13 @@ export const loginUser = ({ email, password }) => dispatch => {
 
       // Get user data
       axios
-        .post(userDataUrl, idToken)
-        .then(res => {
-          console.log(res.data);
+        .post(userDataUrl, { idToken })
+        .then(userDataResult => {
+          // console.log(res.data);
 
           const user = {
-            name: res.data.displayName,
-            photoUrl: res.data.photoUrl,
+            name: userDataResult.data.displayName,
+            photoUrl: userDataResult.data.photoUrl,
             userId: localId,
           };
 
@@ -156,7 +152,7 @@ export const loginUser = ({ email, password }) => dispatch => {
         .catch(err => console.log(err.response.data));
     })
     .catch(err => {
-      console.log(err.response.data.error);
+      // console.log(err.response.data.error);
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data.error,
@@ -165,4 +161,59 @@ export const loginUser = ({ email, password }) => dispatch => {
         type: AUTH_FAILED,
       });
     });
+};
+
+// Logout user
+export const logoutUser = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('expDate');
+  localStorage.removeItem('localId');
+  return {
+    type: AUTH_LOGOUT,
+  };
+};
+
+// Get user data
+export const getUserData = idToken => dispatch => {
+  axios
+    .post(userDataUrl, { idToken })
+    .then(res => {
+      console.log(res.data.users[0]);
+      dispatch({
+        type: SET_USER_DATA,
+        payload: res.data.users[0],
+      });
+    })
+    .catch(err => {
+      console.log(err.response.data);
+    });
+};
+
+export const checkAuthTimeout = expTime => dispatch => {
+  // Log user out after given expTime period (ms)
+  setTimeout(() => {
+    dispatch(logoutUser());
+  }, expTime);
+};
+
+// Check Auth State
+export const checkAuthState = () => dispatch => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    dispatch(logoutUser());
+  } else {
+    // Pull expDate from LS and convert from String to Date
+    const expDate = new Date(localStorage.getItem('expDate'));
+    if (expDate > new Date()) {
+      const userId = localStorage.getItem('userId');
+      dispatch({
+        type: AUTH_SUCCESS,
+        token,
+        userId,
+      });
+      dispatch(checkAuthTimeout(expDate.getTime() - new Date().getTime()));
+    } else {
+      dispatch(logoutUser());
+    }
+  }
 };

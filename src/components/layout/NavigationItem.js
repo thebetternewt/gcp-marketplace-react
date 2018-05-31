@@ -24,6 +24,7 @@ const NavItem = styled.li`
 
   @media (min-width: 800px) {
     width: auto;
+  }
 `;
 
 const NavigationLink = styled(NavLink)`

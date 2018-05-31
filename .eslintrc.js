@@ -21,6 +21,6 @@ module.exports = {
   extends: 'airbnb',
   rules: {
     'react/jsx-filename-extension': 0,
-    'undefined (arrow-parens)': 'as-needed',
+    'arrow-parens': ['error', 'as-needed'],
   },
 };

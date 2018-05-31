@@ -8,7 +8,7 @@ const Container = styled.div`
   position: fixed;
   width: auto;
   max-width: 70%;
-  max-width: 280px;
+  min-width: 30%;
   height: 100%;
   right: 0;
   top: 0;

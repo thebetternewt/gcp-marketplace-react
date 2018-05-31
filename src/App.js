@@ -1,31 +1,63 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Layout from './components/layout/Layout';
 import HomePage from './components/homePage/HomePage';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import Logout from './components/auth/Logout';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profiles/Profile';
+import Dashboard from './components/profiles/Dashboard';
+import { checkAuthState as tryAutoLogin } from './store/actions/authActions';
 
 import './App.css';
 
 class App extends Component {
+  componentDidMount = () => {
+    this.props.tryAutoLogin();
+  };
+
   render() {
+    const guestRoutes = (
+      <Switch>
+        <Route path="/profiles" exact component={Profiles} />
+        <Route path="/profile/:id" component={Profile} />
+        <Route path="/signup" component={Register} />
+        <Route path="/login" component={Login} />
+        <Route path="/" exact component={HomePage} />
+      </Switch>
+    );
+
+    const authRoutes = (
+      <Switch>
+        <Route path="/profiles" exact component={Profiles} />
+        <Route path="/profile/:id" component={Profile} />
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/signup" component={Register} />
+        <Route path="/login" component={Login} />
+        <Route path="/logout" component={Logout} />
+        <Route path="/" exact component={HomePage} />
+      </Switch>
+    );
+
     return (
       <div className="App">
-        <Layout>
-          <Switch>
-            <Route path="/profiles" exact component={Profiles} />
-            <Route path="/profile/:id" component={Profile} />
-            <Route path="/signup" component={Register} />
-            <Route path="/login" component={Login} />
-            <Route path="/" exact component={HomePage} />
-          </Switch>
-        </Layout>
+        <Layout>{this.props.isAuthenticated ? authRoutes : guestRoutes}</Layout>
       </div>
     );
   }
 }
 
-export default App;
+App.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  tryAutoLogin: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.token !== null,
+});
+
+export default withRouter(connect(mapStateToProps, { tryAutoLogin })(App));

@@ -1,27 +1,43 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import NavigationItem from './NavigationItem';
 
 import userImage from '../../images/user.png';
 
-const NavigationItems = () => (
-  <LinkList>
+const NavigationItems = props => (
+  <Nav>
     <NavigationItem link="/profiles">Browse Profiles</NavigationItem>
-    <NavigationItem link="/profile/1">
-      <ProfileLink>
-        <img src={userImage} height="36" alt="" />
-        <span>My Profile</span>
-      </ProfileLink>
-    </NavigationItem>
-    {/* <NavigationItem link="/signup">Sign Up</NavigationItem> */}
-    <NavigationItem link="/login">Log In</NavigationItem>
-  </LinkList>
+    {props.isAuthenticated ? (
+      <Fragment>
+        <NavigationItem link="/dashboard">
+          <ProfileLink>
+            <img src={userImage} height="36" alt="" />
+            <span>My Profile</span>
+          </ProfileLink>
+        </NavigationItem>
+        <NavigationItem link="/logout">Logout</NavigationItem>
+      </Fragment>
+    ) : (
+      <NavigationItem link="/login">Log In</NavigationItem>
+    )}
+  </Nav>
 );
 
-export default NavigationItems;
+NavigationItems.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+};
 
-const LinkList = styled.ul`
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.token !== null,
+});
+
+export default withRouter(connect(mapStateToProps)(NavigationItems));
+
+const Nav = styled.ul`
   align-items: flex-end;
   display: flex;
   flex-direction: column;
