@@ -14,7 +14,7 @@ const initialState = {
   photoUrl: null,
   error: null,
   loading: false,
-  authRedirectPath: '/',
+  authRedirectPath: '/dashboard',
 };
 
 // const authBegin = (state, action) => ({
