@@ -8,6 +8,7 @@ import ContentContainer from '../common/ContentContainer';
 import Spinner from '../common/Spinner';
 
 import { registerUser } from '../../store/actions/authActions';
+import { clearErrors } from '../../store/actions/errorActions';
 
 class Register extends Component {
   state = {
@@ -15,6 +16,11 @@ class Register extends Component {
     email: '',
     password: '',
     confirmPassword: '',
+  };
+
+  // Clear errors when unmounting
+  componentWillUnmount = () => {
+    this.props.clearErrors();
   };
 
   // Handle input value changes
@@ -155,6 +161,7 @@ Register.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   registerUser: PropTypes.func.isRequired,
   redirectPath: PropTypes.string.isRequired,
+  clearErrors: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -164,4 +171,6 @@ const mapStateToProps = state => ({
   errors: state.errors.errors,
 });
 
-export default connect(mapStateToProps, { registerUser })(Register);
+export default connect(mapStateToProps, { registerUser, clearErrors })(
+  Register
+);

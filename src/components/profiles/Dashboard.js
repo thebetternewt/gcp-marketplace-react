@@ -32,12 +32,13 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   photoUrl: PropTypes.string,
   getUserData: PropTypes.func.isRequired,
 };
 
 Dashboard.defaultProps = {
+  name: null,
   photoUrl: userPlaceholder,
 };
 

@@ -5,12 +5,19 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import ContentContainer from '../common/ContentContainer';
+import Spinner from '../common/Spinner';
 import { loginUser } from '../../store/actions/authActions';
+import { clearErrors } from '../../store/actions/errorActions';
 
 class Login extends Component {
   state = {
     email: '',
     password: '',
+  };
+
+  // Clear errors when unmounting
+  componentWillUnmount = () => {
+    this.props.clearErrors();
   };
 
   // Handle input value changes
@@ -35,6 +42,10 @@ class Login extends Component {
     // Reroute if authenticated
     if (this.props.isAuthenticated) {
       return <Redirect to={this.props.redirectPath} />;
+    }
+
+    if (this.props.loading) {
+      return <Spinner />;
     }
 
     return (
@@ -76,8 +87,9 @@ class Login extends Component {
 Login.propTypes = {
   loading: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  loginUser: PropTypes.func.isRequired,
   redirectPath: PropTypes.string.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -87,7 +99,7 @@ const mapStateToProps = state => ({
   errors: state.errors.errors,
 });
 
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(mapStateToProps, { loginUser, clearErrors })(Login);
 
 const TextInput = styled.input`
   display: block;

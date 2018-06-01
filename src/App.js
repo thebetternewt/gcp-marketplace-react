@@ -3,6 +3,8 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import PrivateRoute from './components/common/PrivateRoute';
+
 import Layout from './components/layout/Layout';
 import HomePage from './components/homePage/HomePage';
 import Register from './components/auth/Register';
@@ -21,43 +23,26 @@ class App extends Component {
   };
 
   render() {
-    const guestRoutes = (
-      <Switch>
-        <Route path="/profiles" exact component={Profiles} />
-        <Route path="/profile/:id" component={Profile} />
-        <Route path="/signup" component={Register} />
-        <Route path="/login" component={Login} />
-        <Route path="/" exact component={HomePage} />
-      </Switch>
-    );
-
-    const authRoutes = (
-      <Switch>
-        <Route path="/profiles" exact component={Profiles} />
-        <Route path="/profile/:id" component={Profile} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/signup" component={Register} />
-        <Route path="/login" component={Login} />
-        <Route path="/logout" component={Logout} />
-        <Route path="/" exact component={HomePage} />
-      </Switch>
-    );
-
     return (
       <div className="App">
-        <Layout>{this.props.isAuthenticated ? authRoutes : guestRoutes}</Layout>
+        <Layout>
+          <Switch>
+            <Route path="/profiles" exact component={Profiles} />
+            <Route path="/profile/:id" component={Profile} />
+            <PrivateRoute path="/dashboard" component={Dashboard} />
+            <Route path="/signup" component={Register} />
+            <Route path="/login" component={Login} />
+            <Route path="/logout" component={Logout} />
+            <Route path="/" exact component={HomePage} />
+          </Switch>
+        </Layout>
       </div>
     );
   }
 }
 
 App.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
   tryAutoLogin: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.token !== null,
-});
-
-export default withRouter(connect(mapStateToProps, { tryAutoLogin })(App));
+export default withRouter(connect(null, { tryAutoLogin })(App));

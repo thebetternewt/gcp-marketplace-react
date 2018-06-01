@@ -110,6 +110,10 @@ export const registerUser = ({
 
 // Login User
 export const loginUser = ({ email, password }) => dispatch => {
+  dispatch({
+    type: AUTH_BEGIN,
+  });
+
   const authData = {
     email,
     password,
@@ -132,12 +136,12 @@ export const loginUser = ({ email, password }) => dispatch => {
       axios
         .post(userDataUrl, { idToken })
         .then(userDataResult => {
-          // console.log(res.data);
+          console.log(userDataResult.data);
 
           const user = {
-            name: userDataResult.data.displayName,
-            photoUrl: userDataResult.data.photoUrl,
-            userId: localId,
+            name: userDataResult.data.users[0].displayName,
+            photoUrl: userDataResult.data.users[0].photoUrl,
+            id: localId,
           };
 
           // Set user info in localStorage
@@ -168,6 +172,7 @@ export const logoutUser = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('expDate');
   localStorage.removeItem('localId');
+  localStorage.removeItem('user');
   return {
     type: AUTH_LOGOUT,
   };

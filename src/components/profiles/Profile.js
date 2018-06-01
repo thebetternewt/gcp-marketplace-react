@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import ContentContainer from '../common/ContentContainer';
 import Tag from '../common/Tag';
+import userPlaceHolder from '../../images/user.png';
 
 import profiles from '../../data/profiles';
 
@@ -72,7 +73,7 @@ Profile.propTypes = {
 };
 
 Profile.defaultProps = {
-  profileImage: null,
+  profileImage: userPlaceHolder,
   name: null,
   bio: null,
 };
