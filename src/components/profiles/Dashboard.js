@@ -1,50 +1,63 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
+import { Box, Button } from '../UI';
+
+import ContentContainer from '../common/ContentContainer';
 import Spinner from '../common/Spinner';
 import Profile from './Profile';
-import { getUserData } from '../../store/actions/authActions';
 
 import userPlaceholder from '../../images/user.png';
 
 class Dashboard extends Component {
   state = {
-    loading: true,
+    loading: true
   };
 
-  componentDidMount = () => {
-    console.log('Mounted');
-    const idToken = localStorage.getItem('token');
-    this.props.getUserData(idToken);
-    this.setState({ loading: false });
-  };
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.user) {
+      return { loading: false };
+    }
+    return this.state;
+  }
 
   render() {
     if (this.state.loading) {
       return <Spinner />;
     }
 
+    const { user } = this.props;
+
     return (
-      <Profile profileImage={this.props.photoUrl} name={this.props.name} />
+      <ContentContainer>
+        <Box padding="15px">
+          <h2>Welcome, {user.displayName}!</h2>
+          <p>You don't have a profile... yet!</p>
+          <Link to="/create-profile">
+            <Button>Create Profile</Button>
+          </Link>
+        </Box>
+        <Profile
+          profileImage={user.photoUrl || userPlaceholder}
+          name={user.name}
+        />
+      </ContentContainer>
     );
   }
 }
 
 Dashboard.propTypes = {
-  name: PropTypes.string,
-  photoUrl: PropTypes.string,
-  getUserData: PropTypes.func.isRequired,
+  user: PropTypes.shape()
 };
 
 Dashboard.defaultProps = {
-  name: null,
-  photoUrl: userPlaceholder,
+  user: null
 };
 
 const mapStateToProps = state => ({
-  name: state.auth.name,
-  photoUrl: state.auth.photoUrl,
+  user: state.auth.user
 });
 
-export default connect(mapStateToProps, { getUserData })(Dashboard);
+export default connect(mapStateToProps)(Dashboard);

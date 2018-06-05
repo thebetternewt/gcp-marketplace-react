@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import NavigationItem from './NavigationItem';
-
-import userImage from '../../images/user.png';
+import ProfileImage from '../profiles/ProfileImage';
 
 const NavigationItems = props => (
   <Nav>
@@ -15,7 +14,7 @@ const NavigationItems = props => (
       <Fragment>
         <NavigationItem link="/dashboard">
           <ProfileLink>
-            <img src={userImage} height="36" alt="" />
+            <ProfileImage size="36px" />
             <span>My Profile</span>
           </ProfileLink>
         </NavigationItem>
@@ -28,11 +27,11 @@ const NavigationItems = props => (
 );
 
 NavigationItems.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.token !== null,
+  isAuthenticated: state.auth.user !== null
 });
 
 export default withRouter(connect(mapStateToProps)(NavigationItems));
@@ -55,7 +54,7 @@ const Nav = styled.ul`
 const ProfileLink = styled.div`
   display: flex;
   align-items: center;
-  img {
-    margin-right: 6px;
+  span {
+    margin-left: 6px;
   }
 `;

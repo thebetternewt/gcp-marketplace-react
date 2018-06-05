@@ -13,27 +13,38 @@ import Logout from './components/auth/Logout';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profiles/Profile';
 import Dashboard from './components/profiles/Dashboard';
-import { checkAuthState as tryAutoLogin } from './store/actions/authActions';
+import CreateProfile from './components/profiles/CreateProfile';
+import { setCurrentUser } from './store/actions/authActions';
+import { firebase } from './firebase';
 
 import './App.css';
 
 class App extends Component {
   componentDidMount = () => {
-    this.props.tryAutoLogin();
+    firebase.auth.onAuthStateChanged(authUser => {
+      this.props.setCurrentUser(authUser);
+    });
   };
 
   render() {
     return (
       <div className="App">
         <Layout>
+          <Route path="/" exact component={HomePage} />
+          <Route exact path="/profiles" component={Profiles} />
+          <Route exact path="/profile/:id" component={Profile} />
+          <Route exact path="/signup" component={Register} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/logout" component={Logout} />
           <Switch>
-            <Route path="/profiles" exact component={Profiles} />
-            <Route path="/profile/:id" component={Profile} />
-            <PrivateRoute path="/dashboard" component={Dashboard} />
-            <Route path="/signup" component={Register} />
-            <Route path="/login" component={Login} />
-            <Route path="/logout" component={Logout} />
-            <Route path="/" exact component={HomePage} />
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          </Switch>
+          <Switch>
+            <PrivateRoute
+              exact
+              path="/create-profile"
+              component={CreateProfile}
+            />
           </Switch>
         </Layout>
       </div>
@@ -42,7 +53,17 @@ class App extends Component {
 }
 
 App.propTypes = {
-  tryAutoLogin: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  setCurrentUser: PropTypes.func.isRequired
 };
 
-export default withRouter(connect(null, { tryAutoLogin })(App));
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.user !== null
+});
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { setCurrentUser }
+  )(App)
+);

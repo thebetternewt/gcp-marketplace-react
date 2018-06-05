@@ -8,20 +8,22 @@ import ContentContainer from '../common/ContentContainer';
 import Spinner from '../common/Spinner';
 
 import { registerUser } from '../../store/actions/authActions';
-import { clearErrors } from '../../store/actions/errorActions';
 
 class Register extends Component {
   state = {
     name: '',
     email: '',
-    password: '',
-    confirmPassword: '',
+    passwordOne: '',
+    passwordTwo: '',
+    error: null
+  };
+
+  // Add error to state
+  componentWillReceiveProps = nextProps => {
+    this.setState({ error: nextProps.error });
   };
 
   // Clear errors when unmounting
-  componentWillUnmount = () => {
-    this.props.clearErrors();
-  };
 
   // Handle input value changes
   handleChange = e => {
@@ -32,16 +34,9 @@ class Register extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const { name, email, password, confirmPassword } = this.state;
-    const userData = {
-      name,
-      email,
-      password,
-      confirmPassword,
-      photoUrl: 'https://avatars1.githubusercontent.com/u/8032577?s=460&v=4',
-    };
+    const { name, email, passwordOne } = this.state;
 
-    this.props.registerUser(userData);
+    this.props.registerUser(name, email, passwordOne);
   };
 
   render() {
@@ -54,43 +49,49 @@ class Register extends Component {
       return <Spinner />;
     }
 
+    const { name, email, passwordOne, passwordTwo, error } = this.state;
+
+    const isInvalid =
+      passwordOne !== passwordTwo ||
+      passwordOne === '' ||
+      email === '' ||
+      name === '';
+
     return (
       <ContentContainer>
         <Card>
           <h2>Sign Up</h2>
-          {this.props.errors && (
-            <ErrorMessage>{this.props.errors[0].message}</ErrorMessage>
-          )}
           <form onSubmit={this.handleSubmit}>
             <TextInput
               type="text"
               name="name"
               placeholder="name"
               onChange={this.handleChange}
-              value={this.state.name}
+              value={name}
             />
             <TextInput
               type="email"
               name="email"
               placeholder="email"
               onChange={this.handleChange}
-              value={this.state.email}
+              value={email}
             />
             <TextInput
               type="password"
-              name="password"
+              name="passwordOne"
               placeholder="password"
               onChange={this.handleChange}
-              value={this.state.password}
+              value={passwordOne}
             />
             <TextInput
               type="password"
-              name="confirmPassword"
+              name="passwordTwo"
               placeholder="confirm password"
               onChange={this.handleChange}
-              value={this.state.confirmPassword}
+              value={passwordTwo}
             />
-            <SubmitButton>Sign up</SubmitButton>
+            {error && <ErrorMessage>{error.message}</ErrorMessage>}
+            <SubmitButton disabled={isInvalid}>Sign up</SubmitButton>
           </form>
           <p>
             Already have an account?{' '}
@@ -103,6 +104,27 @@ class Register extends Component {
     );
   }
 }
+
+Register.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.shape(),
+  isAuthenticated: PropTypes.bool.isRequired,
+  registerUser: PropTypes.func.isRequired,
+  redirectPath: PropTypes.string.isRequired
+};
+
+Register.defaultProps = {
+  error: null
+};
+
+const mapStateToProps = state => ({
+  loading: state.auth.loading,
+  isAuthenticated: state.auth.token !== null,
+  redirectPath: state.auth.authRedirectPath,
+  error: state.errors
+});
+
+export default connect(mapStateToProps, { registerUser })(Register);
 
 const TextInput = styled.input`
   display: block;
@@ -127,11 +149,16 @@ const SubmitButton = styled.button`
   margin: 15px auto 1rem;
   width: 100%;
   cursor: pointer;
+
+  &:disabled {
+    background-color: gray;
+  }
 `;
 
 const ErrorMessage = styled.p`
   color: red;
-  text-align: center;
+  font-size: 0.9em;
+  text-align: left;
 `;
 
 const Card = styled.div`
@@ -155,22 +182,3 @@ const Card = styled.div`
     text-decoration: underline;
   }
 `;
-
-Register.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  registerUser: PropTypes.func.isRequired,
-  redirectPath: PropTypes.string.isRequired,
-  clearErrors: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
-  loading: state.auth.loading,
-  isAuthenticated: state.auth.token !== null,
-  redirectPath: state.auth.authRedirectPath,
-  errors: state.errors.errors,
-});
-
-export default connect(mapStateToProps, { registerUser, clearErrors })(
-  Register
-);

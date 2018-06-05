@@ -13,12 +13,18 @@ class Login extends Component {
   state = {
     email: '',
     password: '',
+    error: null
+  };
+
+  // Add error to state
+  componentWillReceiveProps = nextProps => {
+    this.setState({ error: nextProps.error });
   };
 
   // Clear errors when unmounting
-  componentWillUnmount = () => {
-    this.props.clearErrors();
-  };
+  // componentWillUnmount = () => {
+  //   this.props.clearErrors();
+  // };
 
   // Handle input value changes
   handleChange = e => {
@@ -30,15 +36,17 @@ class Login extends Component {
     e.preventDefault();
 
     const { email, password } = this.state;
-    const authData = {
-      email,
-      password,
-    };
+    // const authData = {
+    //   email,
+    //   password,
+    // };
 
-    this.props.loginUser(authData);
+    this.props.loginUser(email, password);
   };
 
   render() {
+    const { email, password, error } = this.state;
+
     // Reroute if authenticated
     if (this.props.isAuthenticated) {
       return <Redirect to={this.props.redirectPath} />;
@@ -52,23 +60,21 @@ class Login extends Component {
       <ContentContainer>
         <Card>
           <h2>Log In</h2>
-          {this.props.errors && (
-            <ErrorMessage>{this.props.errors[0].message}</ErrorMessage>
-          )}
+          {error && <ErrorMessage>{error.message}</ErrorMessage>}
           <form onSubmit={this.handleSubmit}>
             <TextInput
               type="email"
               name="email"
               placeholder="email"
               onChange={this.handleChange}
-              value={this.state.email}
+              value={email}
             />
             <TextInput
               type="password"
               name="password"
               placeholder="password"
               onChange={this.handleChange}
-              value={this.state.password}
+              value={password}
             />
             <SubmitButton>Log in</SubmitButton>
           </form>
@@ -89,17 +95,20 @@ Login.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   redirectPath: PropTypes.string.isRequired,
   loginUser: PropTypes.func.isRequired,
-  clearErrors: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   loading: state.auth.loading,
-  isAuthenticated: state.auth.token !== null,
+  isAuthenticated: state.auth.user !== null,
   redirectPath: state.auth.authRedirectPath,
-  errors: state.errors.errors,
+  error: state.errors
 });
 
-export default connect(mapStateToProps, { loginUser, clearErrors })(Login);
+export default connect(
+  mapStateToProps,
+  { loginUser, clearErrors }
+)(Login);
 
 const TextInput = styled.input`
   display: block;

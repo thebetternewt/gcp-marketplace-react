@@ -7,7 +7,7 @@ import Footer from './Footer';
 
 class Layout extends Component {
   static propTypes = {
-    children: PropTypes.shape().isRequired,
+    children: PropTypes.arrayOf(PropTypes.element).isRequired,
   };
 
   state = {

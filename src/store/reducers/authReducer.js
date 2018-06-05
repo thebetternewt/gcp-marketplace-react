@@ -3,50 +3,16 @@ import {
   AUTH_SUCCESS,
   AUTH_FAILED,
   AUTH_LOGOUT,
-  SET_USER_DATA,
+  SET_CURRENT_USER
   // SET_AUTH_REDIRECT_PATH,
 } from '../actions/types';
 
 const initialState = {
-  token: null,
-  userId: null,
-  name: null,
-  photoUrl: null,
+  user: null,
   error: null,
   loading: false,
-  authRedirectPath: '/dashboard',
+  authRedirectPath: '/dashboard'
 };
-
-// const authBegin = (state, action) => ({
-//   ...state,
-//   error: null,
-//   loading: true,
-// });
-
-// const authSuccess = (state, action) => ({
-//   ...state,
-//   token: action.token,
-//   userId: action.userId,
-//   error: null,
-//   loading: false,
-// });
-
-// const authFailed = (state, action) => ({
-//   ...state,
-//   error: action.error,
-//   loading: false,
-// });
-
-// const authLogout = (state, action) => ({
-//   ...state,
-//   token: null,
-//   userId: null,
-// });
-
-// const setAuthRedirectPath = (state, action) => ({
-//   ...state,
-//   authRedirectPath: action.path,
-// });
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -54,36 +20,31 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         error: null,
-        loading: true,
+        loading: true
       };
     case AUTH_SUCCESS:
       return {
         ...state,
-        token: action.token,
-        userId: action.userId,
+        user: action.user,
         error: null,
-        loading: false,
+        loading: false
       };
     case AUTH_FAILED:
       return {
         ...state,
         error: action.error,
-        loading: false,
+        loading: false
       };
     case AUTH_LOGOUT:
       return {
         ...state,
-        token: null,
-        userId: null,
+        user: null
       };
-    case SET_USER_DATA:
+    case SET_CURRENT_USER:
       return {
         ...state,
-        name: action.payload.displayName,
-        photoUrl: action.payload.photoUrl,
+        user: action.user
       };
-    // case SET_AUTH_REDIRECT_PATH:
-    //   return setAuthRedirectPath(state, action);
     default:
       return state;
   }
