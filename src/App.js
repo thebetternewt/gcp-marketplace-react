@@ -30,12 +30,14 @@ class App extends Component {
     return (
       <div className="App">
         <Layout>
-          <Route path="/" exact component={HomePage} />
-          <Route exact path="/profiles" component={Profiles} />
-          <Route exact path="/profile/:id" component={Profile} />
-          <Route exact path="/signup" component={Register} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/logout" component={Logout} />
+          <Route exact path="/" component={HomePage} />
+          <Switch>
+            <Route exact path="/profiles" component={Profiles} />
+            <Route exact path="/profile/:id" component={Profile} />
+            <Route exact path="/signup" component={Register} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/logout" component={Logout} />
+          </Switch>
           <Switch>
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
           </Switch>

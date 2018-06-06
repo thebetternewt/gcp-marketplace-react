@@ -16,19 +16,12 @@ class Dashboard extends Component {
     loading: true
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.user) {
-      return { loading: false };
-    }
-    return this.state;
-  }
-
   render() {
-    if (this.state.loading) {
+    if (this.props.loading) {
       return <Spinner />;
     }
 
-    const { user } = this.props;
+    const { user, profile } = this.props;
 
     return (
       <ContentContainer>
@@ -39,25 +32,25 @@ class Dashboard extends Component {
             <Button>Create Profile</Button>
           </Link>
         </Box>
-        <Profile
-          profileImage={user.photoUrl || userPlaceholder}
-          name={user.name}
-        />
+        {profile && (
+          <Profile
+            profileImage={user.photoUrl || userPlaceholder}
+            name={user.name}
+          />
+        )}
       </ContentContainer>
     );
   }
 }
 
 Dashboard.propTypes = {
-  user: PropTypes.shape()
-};
-
-Dashboard.defaultProps = {
-  user: null
+  user: PropTypes.shape().isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.auth.user
+  user: state.auth.user,
+  loading: state.auth.loading
 });
 
 export default connect(mapStateToProps)(Dashboard);

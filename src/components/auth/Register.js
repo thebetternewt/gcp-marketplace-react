@@ -119,12 +119,15 @@ Register.defaultProps = {
 
 const mapStateToProps = state => ({
   loading: state.auth.loading,
-  isAuthenticated: state.auth.token !== null,
+  isAuthenticated: state.auth.user !== null,
   redirectPath: state.auth.authRedirectPath,
   error: state.errors
 });
 
-export default connect(mapStateToProps, { registerUser })(Register);
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(Register);
 
 const TextInput = styled.input`
   display: block;

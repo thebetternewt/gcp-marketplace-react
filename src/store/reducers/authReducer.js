@@ -11,6 +11,7 @@ const initialState = {
   user: null,
   error: null,
   loading: false,
+  isAuthenticated: false,
   authRedirectPath: '/dashboard'
 };
 

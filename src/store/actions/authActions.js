@@ -1,4 +1,5 @@
-import { auth } from '../../firebase';
+import { auth, db } from '../../firebase';
+import validate from 'validate.js';
 
 import {
   GET_ERRORS,
@@ -15,32 +16,51 @@ export const registerUser = (name, email, password) => dispatch => {
     type: AUTH_BEGIN
   });
 
-  // Register new user
-  auth
-    .doCreateUserWithEmailAndPassword(email, password)
-    .then(res => {
-      const { user } = res;
+  // Set validation constraints for username
+  const constraints = {
+    name: {
+      presence: { allowEmpty: false },
+      length: { minimum: 3, maximum: 50 }
+    }
+  };
 
-      user
-        .updateProfile({ displayName: name })
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
-
-      dispatch({
-        type: AUTH_SUCCESS,
-        user
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      dispatch({
-        type: GET_ERRORS,
-        payload: err
-      });
-      dispatch({
-        type: AUTH_FAILED
-      });
+  // Check for errors
+  const errors = validate({ name }, constraints, { format: 'flat' });
+  // Terminate auth if error
+  if (errors) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: { message: errors[0] }
     });
+    dispatch({
+      type: AUTH_FAILED
+    });
+  } else {
+    // Register new user
+    auth
+      .doCreateUserWithEmailAndPassword(email, password)
+      .then(res => {
+        // Create user in Firestore
+        db.doCreateUser(name, email).then(docRef => {
+          console.log('User created with id: ', docRef.id);
+          const user = { name, email };
+
+          dispatch({
+            type: AUTH_SUCCESS,
+            user
+          });
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: GET_ERRORS,
+          payload: err
+        });
+        dispatch({
+          type: AUTH_FAILED
+        });
+      });
+  }
 };
 
 // Login User
@@ -81,10 +101,14 @@ export const logoutUser = () => {
 
 // Set current user
 export const setCurrentUser = user => dispatch => {
-  dispatch({
-    type: SET_CURRENT_USER,
-    user
-  });
+  if (user) {
+    dispatch({
+      type: SET_CURRENT_USER,
+      user
+    });
+  } else {
+    logoutUser();
+  }
 };
 
 export const checkAuthTimeout = expTime => dispatch => {
