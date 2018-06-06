@@ -11,7 +11,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Logout from './components/auth/Logout';
 import Profiles from './components/profiles/Profiles';
-import Profile from './components/profiles/Profile';
+import ProfilePage from './components/profiles/ProfilePage';
 import Dashboard from './components/profiles/Dashboard';
 import CreateProfile from './components/profiles/CreateProfile';
 import { setCurrentUser } from './store/actions/authActions';
@@ -33,7 +33,7 @@ class App extends Component {
           <Route exact path="/" component={HomePage} />
           <Switch>
             <Route exact path="/profiles" component={Profiles} />
-            <Route exact path="/profile/:id" component={Profile} />
+            <Route exact path="/profile/:id" component={ProfilePage} />
             <Route exact path="/signup" component={Register} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/logout" component={Logout} />

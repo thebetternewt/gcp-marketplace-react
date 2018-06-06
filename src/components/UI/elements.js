@@ -22,7 +22,7 @@ export const Button = styled.button`
   transition: all 100ms ease-out;
   cursor: pointer;
 
-  &:hover, &:focus, &:active {
+  &:hover, &:active {
     color: rgb(70, 129, 181);
     background-color: #fff;
     outline 3px solid rgb(70, 129, 181);

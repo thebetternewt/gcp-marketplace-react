@@ -18,3 +18,14 @@ export const doGetUser = id => {
 
   return userRef.get();
 };
+
+// Profile API
+
+export const doCreateProfile = profileData => {
+  const { handle, bio, userRef } = profileData;
+
+  return db.collection('profiles').add({
+    handle,
+    bio
+  });
+};
