@@ -15,19 +15,22 @@ class CreateProfile extends Component {
     linkedin: '',
     youtube: '',
     instagram: '',
-    errors: {},
+    errors: {}
   };
 
   // Handle input value changes
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
-  
+
   render() {
     return (
       <ContentContainer>
         <Box>
           <h1>Create Your Profile</h1>
+          <form>
+            <textarea name="bio" cols="30" rows="10" />
+          </form>
         </Box>
       </ContentContainer>
     );

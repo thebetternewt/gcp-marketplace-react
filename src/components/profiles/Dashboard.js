@@ -26,8 +26,8 @@ class Dashboard extends Component {
     return (
       <ContentContainer>
         <Box padding="15px">
-          <h2>Welcome, {user.displayName}!</h2>
-          <p>You don't have a profile... yet!</p>
+          <h2>Welcome, {user.name}!</h2>
+          <p>You do not have a profile... yet!</p>
           <Link to="/create-profile">
             <Button>Create Profile</Button>
           </Link>

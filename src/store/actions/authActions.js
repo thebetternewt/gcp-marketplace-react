@@ -1,5 +1,5 @@
-import { auth, db } from '../../firebase';
 import validate from 'validate.js';
+import { auth, db } from '../../firebase';
 
 import {
   GET_ERRORS,
@@ -12,9 +12,7 @@ import {
 
 // Register User
 export const registerUser = (name, email, password) => dispatch => {
-  dispatch({
-    type: AUTH_BEGIN
-  });
+  dispatch({ type: AUTH_BEGIN });
 
   // Set validation constraints for username
   const constraints = {
@@ -32,18 +30,19 @@ export const registerUser = (name, email, password) => dispatch => {
       type: GET_ERRORS,
       payload: { message: errors[0] }
     });
-    dispatch({
-      type: AUTH_FAILED
-    });
+    dispatch({ type: AUTH_FAILED });
   } else {
     // Register new user
     auth
       .doCreateUserWithEmailAndPassword(email, password)
       .then(res => {
         // Create user in Firestore
-        db.doCreateUser(name, email).then(docRef => {
-          console.log('User created with id: ', docRef.id);
-          const user = { name, email };
+        db.doCreateUser(res.user.uid, name, email).then(docRef => {
+          // console.log('User created with id: ', docRef.id);
+          const user = {
+            name: docRef.name,
+            email: docRef.email
+          };
 
           dispatch({
             type: AUTH_SUCCESS,
@@ -56,18 +55,14 @@ export const registerUser = (name, email, password) => dispatch => {
           type: GET_ERRORS,
           payload: err
         });
-        dispatch({
-          type: AUTH_FAILED
-        });
+        dispatch({ type: AUTH_FAILED });
       });
   }
 };
 
 // Login User
 export const loginUser = (email, password) => dispatch => {
-  dispatch({
-    type: AUTH_BEGIN
-  });
+  dispatch({ type: AUTH_BEGIN });
 
   auth
     .doSignInWithEmailAndPassword(email, password)
@@ -80,31 +75,30 @@ export const loginUser = (email, password) => dispatch => {
       });
     })
     .catch(err => {
-      console.log(err);
       dispatch({
         type: GET_ERRORS,
         payload: err
       });
-      dispatch({
-        type: AUTH_FAILED
-      });
+      dispatch({ type: AUTH_FAILED });
     });
 };
 
 // Logout user
 export const logoutUser = () => {
   auth.doSignOut();
-  return {
-    type: AUTH_LOGOUT
-  };
+  return { type: AUTH_LOGOUT };
 };
 
 // Set current user
-export const setCurrentUser = user => dispatch => {
-  if (user) {
-    dispatch({
-      type: SET_CURRENT_USER,
-      user
+export const setCurrentUser = authUser => dispatch => {
+  if (authUser) {
+    db.doGetUser(authUser.uid).then(user => {
+      if (user.exists) {
+        dispatch({
+          type: SET_CURRENT_USER,
+          user: user.data()
+        });
+      }
     });
   } else {
     logoutUser();
