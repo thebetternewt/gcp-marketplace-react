@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -51,16 +52,14 @@ class Register extends Component {
 
     const { name, email, passwordOne, passwordTwo, error } = this.state;
 
-    const isInvalid =
-      passwordOne !== passwordTwo ||
-      passwordOne === '' ||
-      email === '' ||
-      name === '';
-
     return (
       <ContentContainer>
+        <Helmet>
+          <title>Sign Up | The Marketplace</title>
+        </Helmet>
         <Card>
           <h2>Sign Up</h2>
+          {error && <ErrorMessage>{error.message}</ErrorMessage>}
           <form onSubmit={this.handleSubmit}>
             <TextInput
               type="text"
@@ -90,8 +89,7 @@ class Register extends Component {
               onChange={this.handleChange}
               value={passwordTwo}
             />
-            {error && <ErrorMessage>{error.message}</ErrorMessage>}
-            <SubmitButton disabled={isInvalid}>Sign up</SubmitButton>
+            <SubmitButton>Sign up</SubmitButton>
           </form>
           <p>
             Already have an account?{' '}
@@ -161,7 +159,7 @@ const SubmitButton = styled.button`
 const ErrorMessage = styled.p`
   color: red;
   font-size: 0.9em;
-  text-align: left;
+  text-align: center;
 `;
 
 const Card = styled.div`

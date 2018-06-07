@@ -69,29 +69,38 @@ export const registerUser = (name, email, password) => dispatch => {
 export const loginUser = (email, password) => dispatch => {
   dispatch({ type: AUTH_BEGIN });
 
-  auth.doSignInWithEmailAndPassword(email, password).then(res => {
-    db.doGetUser(res.user.uid)
-      .then(userRef => {
-        const userData = userRef.data();
-        const user = {
-          id: userRef.id,
-          name: userData.name,
-          email: userData.email
-        };
+  auth
+    .doSignInWithEmailAndPassword(email, password)
+    .then(res => {
+      db.doGetUser(res.user.uid)
+        .then(userRef => {
+          const userData = userRef.data();
+          const user = {
+            id: userRef.id,
+            name: userData.name,
+            email: userData.email
+          };
 
-        dispatch({
-          type: AUTH_SUCCESS,
-          user
+          dispatch({
+            type: AUTH_SUCCESS,
+            user
+          });
+        })
+        .catch(err => {
+          dispatch({
+            type: GET_ERRORS,
+            payload: err
+          });
+          dispatch({ type: AUTH_FAILED });
         });
-      })
-      .catch(err => {
-        dispatch({
-          type: GET_ERRORS,
-          payload: err
-        });
-        dispatch({ type: AUTH_FAILED });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
       });
-  });
+      dispatch({ type: AUTH_FAILED });
+    });
 };
 
 // Logout user

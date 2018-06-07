@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -21,11 +22,6 @@ class Login extends Component {
     this.setState({ error: nextProps.error });
   };
 
-  // Clear errors when unmounting
-  // componentWillUnmount = () => {
-  //   this.props.clearErrors();
-  // };
-
   // Handle input value changes
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -36,11 +32,6 @@ class Login extends Component {
     e.preventDefault();
 
     const { email, password } = this.state;
-    // const authData = {
-    //   email,
-    //   password,
-    // };
-
     this.props.loginUser(email, password);
   };
 
@@ -58,6 +49,9 @@ class Login extends Component {
 
     return (
       <ContentContainer>
+        <Helmet>
+          <title>Login | The Marketplace</title>
+        </Helmet>
         <Card>
           <h2>Log In</h2>
           {error && <ErrorMessage>{error.message}</ErrorMessage>}
@@ -79,7 +73,7 @@ class Login extends Component {
             <SubmitButton>Log in</SubmitButton>
           </form>
           <p>
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link to="/signup">
               <span>Sign up!</span>
             </Link>
@@ -95,7 +89,7 @@ Login.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   redirectPath: PropTypes.string.isRequired,
   loginUser: PropTypes.func.isRequired,
-  clearErrors: PropTypes.func.isRequired
+  error: PropTypes.shape().isRequired
 };
 
 const mapStateToProps = state => ({
