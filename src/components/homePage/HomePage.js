@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import ContentContainer from '../common/ContentContainer';
+import Container from '../common/ContentContainer';
 import Hero from './Hero';
 
 import cityImage from '../../images/buildings-city-community.jpg';
@@ -15,16 +15,18 @@ const HomePage = styled.div`
 
   h2 {
     font-family: 'Montserrat', 'Helvetica', Arial, sans-serif;
-    font-size: 2.3rem;
+    font-size: 2.1rem;
     font-weight: 300;
     margin: 1em 0 0.5em;
     text-align: center;
     text-transform: uppercase;
   }
   h5 {
+    opacity: 0.6;
     font-family: 'Montserrat', 'Helvetica', Arial, sans-serif;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 300;
+    font-style: italic;
     margin: 1em 0;
     text-align: center;
     text-transform: uppercase;
@@ -58,6 +60,15 @@ const ActionButton = styled.button`
   }
 `;
 
+const Section = styled.div`
+  ${props =>
+    props.dark
+      ? 'background-color: #333; color: #fff'
+      : 'background-color: #fff; color: #111'};
+  width: 100vw;
+  padding: 1rem 0;
+`;
+
 export default () => (
   <HomePage>
     <Hero backgroundImage={cityImage}>
@@ -68,40 +79,86 @@ export default () => (
         </ActionButton>
       </Link>
     </Hero>
-    <ContentContainer>
-      <h2>Teachers</h2>
-      <h5>Training the Next Generation in the Arts</h5>
-      <p>
-        Our Marketplace teachers are seen globally but they serve locally. Here,
-        you can connect to background certified teachers in a family safe
-        environment for something as simple as one-on-one lessons, or if you're
-        a teacher, you can join us, our T.V. network, and our platform, to share
-        what you know with the world.
-      </p>
-      <h2>Innovators</h2>
-      <h5>
-        God-Glorifying work that is done locally that we share and network
-        globally
-      </h5>
-      <p>
-        Our Marketplace innovators are seen globally, but they serve locally.
-        Here, you can connect to a host of creatives, who are excellent in
-        Christlikeness, character, and craft, in order to get what you need
-        done, DONE! Or, if you have a talent, a skill, a project, or work you'd
-        like to promote and make available to the Body of Christ, you can fill
-        out THIS FORM and be seen in our network, and beyond.
-      </p>
-      <h2>Partners</h2>
-      <h5>Our Partners Work Locally to REACH Globally</h5>
-      <p>
-        Everyone of our partners gives something to Garden City in order to
-        enable our artists, innovators, and creatives to work their ideas into
-        practical and thoughtful methods of building up the church in worship
-        and mission. If your work or entity can offer services to our network
-        that can help empower those in our sphere of influence, tell us about it
-        HERE, and we'd love to promote your work as well.
-      </p>
-    </ContentContainer>
+    <Section>
+      <Container>
+        <h2>Our Heart For The “Creative” Innovator</h2>
+        {/* <h5>Training the Next Generation in the Arts</h5> */}
+        <p>
+          We want to help train, equip, and resource the next generation of
+          believers in all forms of creativity. We want to see the local family
+          and church become the cultivator of all culture once again in the
+          arts/media, governance, education, the home, the church, and business.
+          We want to share your god-glorifying work that is done locally with
+          those in the global body of christ. By you simply creating a free
+          profile, we can connect you to a host of creatives in god’s global
+          family, who are excellent in Christlikeness, character, and craft.
+          And, more specifically, if you have a talent, a skill, a project, or
+          work you'd like to promote, contribute, or share with the community in
+          order to make it available to the body of christ, you can! Let the fun
+          networking possibilities begin.
+        </p>
+      </Container>
+    </Section>
+    <Section dark>
+      <Container>
+        <h2>Connecting Small Ideas With Big Resources</h2>
+        <h5>
+          We have found some of the most inspiring kingdom ideas in some of the
+          most remote places.
+        </h5>
+        <p>
+          We realize that start-up ideas in any form often lack the resourcing
+          of notable industry services and professionals to get things started.
+          We realize that ideas that are particularly helpful to building up the
+          local church in worship and mission are even more difficult to
+          resource.
+        </p>
+        <p>
+          We’ve assembled all the resources one might need for publication,
+          production, and promotion into one central place. Our goal is to serve
+          ideas and believers that have ideas that will build up and mature the
+          Body of Christ.
+        </p>
+        <p>
+          By networking with local churches to help build up the Body of Christ
+          for the benefit of local communities, we are able to cut industry
+          costs by up to 80%, and still fully resource your idea for the good of
+          God’s kingdom. We do this through network partners and through
+          charging you a small monthly fee in order to offset all the other
+          costs.
+        </p>
+      </Container>
+    </Section>
+    <Section>
+      <Container>
+        <h2>Pricing That Helps Lower Your Costs</h2>
+        <h5>
+          By paying a simple monthly fee, you can see below how we can instantly
+          start to grant your work incredible resourcing for far less.
+        </h5>
+        <p>
+          Everyone of our partners gives something to Garden City in order to
+          enable our artists, innovators, and creatives to work their ideas into
+          practical and thoughtful methods of building up the church in worship
+          and mission. If your work or entity can offer services to our network
+          that can help empower those in our sphere of influence, tell us about
+          it HERE, and we'd love to promote your work as well.
+        </p>
+      </Container>
+    </Section>
+    <Section dark>
+      <Container>
+        <h2>In Our Marketplace You Can . . . </h2>
+        <p>
+          We realize that start-up ideas in any form often lack the resourcing
+          of notable industry services and professionals to get things started.
+          We realize that ideas that are particularly helpful to building up the
+          local church in worship and mission are even more difficult to
+          resource.
+        </p>
+      </Container>
+    </Section>
+    <Section />
   </HomePage>
 );
 
