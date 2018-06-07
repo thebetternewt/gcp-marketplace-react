@@ -6,13 +6,12 @@ import PropTypes from 'prop-types';
 const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
-      isAuthenticated === true ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to="/login" />
-      )
-    }
+    render={props => {
+      if (isAuthenticated) {
+        return <Component {...props} />;
+      }
+      return <Redirect to="/" />;
+    }}
   />
 );
 
