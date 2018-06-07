@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Container from '../common/ContentContainer';
 import Profile from './Profile';
+import Spinner from '../common/Spinner';
 import { Box, Button } from '../UI';
 import { getProfileByHandle } from '../../store/actions/profileActions';
 
 class ProfilePage extends Component {
-  // componentDidMount () => {
-  //   this.props.getProfileByHandle(props.match.params.handle)
-  // }
+  componentDidMount = () => {
+    this.props.getProfileByHandle(this.props.match.params.handle);
+  };
 
   // componentWillReceiveProps = nextProps => {
   //   if (nextProps.profile.profile === null && this.props.profile.loading) {
@@ -19,7 +20,12 @@ class ProfilePage extends Component {
   // };
 
   render() {
-    const profile = null;
+    const { loading, profile } = this.props.profile;
+
+    if (loading) {
+      return <Spinner />;
+    }
+
     return (
       <Container>
         {profile ? (
@@ -39,15 +45,15 @@ class ProfilePage extends Component {
 
 ProfilePage.propTypes = {
   getProfileByHandle: PropTypes.func.isRequired,
+  profile: PropTypes.shape().isRequired,
   match: PropTypes.shape().isRequired
 };
 
 const mapStateToProps = state => ({
-  loading: state.profile.loading,
-  profile: state.profile.profile
+  profile: state.profile
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   { getProfileByHandle }
 )(ProfilePage);

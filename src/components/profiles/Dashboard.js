@@ -45,18 +45,17 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   user: PropTypes.shape().isRequired,
   profile: PropTypes.shape(),
-  loading: PropTypes.bool.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired
+  loading: PropTypes.bool.isRequired
 };
 
 Dashboard.defaultProps = {
-  profile: {}
+  profile: null
 };
 
 const mapStateToProps = state => ({
   user: state.auth.user,
   profile: state.profile.profile,
-  loading: state.auth.loading
+  loading: state.auth.loading || state.profile.loading
 });
 
 export default connect(

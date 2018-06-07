@@ -38,7 +38,6 @@ export const getProfileByHandle = handle => dispatch => {
   doGetProfileByHandle(handle)
     .then(snapshot => {
       const profile = snapshot.docs[0].data();
-      console.log(profile);
       dispatch({
         type: GET_PROFILE,
         profile
