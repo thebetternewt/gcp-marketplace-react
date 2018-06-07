@@ -14,12 +14,27 @@ import Profiles from './components/profiles/Profiles';
 import ProfilePage from './components/profiles/ProfilePage';
 import Dashboard from './components/profiles/Dashboard';
 import CreateProfile from './components/profiles/CreateProfile';
-import { setCurrentUser } from './store/actions/authActions';
+import { setCurrentUser, logoutUser } from './store/actions/authActions';
+import { firebase } from './firebase';
 
 import './App.css';
 
 class App extends Component {
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    const { history } = this.props;
+
+    firebase.auth.onAuthStateChanged(user => {
+      if (user) {
+        this.props.setCurrentUser(user);
+      } else {
+        this.props.logoutUser();
+        console.log('User logged out...');
+        if (history.location.pathname !== '/') {
+          history.push('/');
+        }
+      }
+    });
+  };
 
   render() {
     return (
@@ -50,17 +65,14 @@ class App extends Component {
 }
 
 App.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
-  setCurrentUser: PropTypes.func.isRequired
+  setCurrentUser: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+  history: PropTypes.shape().isRequired
 };
-
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.user !== null
-});
 
 export default withRouter(
   connect(
-    mapStateToProps,
-    { setCurrentUser }
+    null,
+    { setCurrentUser, logoutUser }
   )(App)
 );
