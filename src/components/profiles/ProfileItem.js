@@ -53,7 +53,7 @@ export default props => {
     <ProfileItem>
       <div>
         <h3>{name}</h3>
-        <p>{bio.short}</p>
+        <p>{bio}</p>
         <p className="tags">{categoryTags}</p>
       </div>
       <Link to={`/profile/${handle}`}>
