@@ -27,6 +27,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.user,
+        isAuthenticated: !!action.user,
         error: null,
         loading: false
       };
@@ -39,12 +40,14 @@ const reducer = (state = initialState, action) => {
     case AUTH_LOGOUT:
       return {
         ...state,
-        user: null
+        user: null,
+        isAuthenticated: !!action.user
       };
     case SET_CURRENT_USER:
       return {
         ...state,
-        user: action.user
+        user: action.user,
+        isAuthenticated: !!action.user
       };
     default:
       return state;

@@ -31,7 +31,7 @@ NavigationItems.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.user !== null
+  isAuthenticated: state.auth.isAuthenticated
 });
 
 export default withRouter(connect(mapStateToProps)(NavigationItems));
