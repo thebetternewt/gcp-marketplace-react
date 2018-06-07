@@ -20,11 +20,7 @@ import { firebase } from './firebase';
 import './App.css';
 
 class App extends Component {
-  componentDidMount = () => {
-    firebase.auth.onAuthStateChanged(authUser => {
-      this.props.setCurrentUser(authUser);
-    });
-  };
+  componentDidMount = () => {};
 
   render() {
     return (

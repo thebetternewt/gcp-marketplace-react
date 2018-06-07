@@ -40,10 +40,11 @@ export const registerUser = (name, email, password) => dispatch => {
         // Create user in Firestore
         db.doCreateUser(uid, name, email)
           .then(() => db.doGetUser(uid))
-          .then(docRef => {
-            console.log('User created with id: ', docRef.data().id);
-            const userData = docRef.data();
+          .then(userRef => {
+            console.log('User created with id: ', userRef.id);
+            const userData = userRef.data();
             const user = {
+              id: userRef.id,
               name: userData.name,
               email: userData.email
             };
@@ -68,23 +69,30 @@ export const registerUser = (name, email, password) => dispatch => {
 export const loginUser = (email, password) => dispatch => {
   dispatch({ type: AUTH_BEGIN });
 
-  auth
-    .doSignInWithEmailAndPassword(email, password)
-    .then(res => {
-      const { user } = res;
+  auth.doSignInWithEmailAndPassword(email, password).then(res => {
+    db.doGetUser(res.user.uid)
+      .then(userRef => {
+        console.log('User ref ', userRef);
+        const userData = userRef.data();
+        const user = {
+          id: userRef.id,
+          name: userData.name,
+          email: userData.email
+        };
 
-      dispatch({
-        type: AUTH_SUCCESS,
-        user
+        dispatch({
+          type: AUTH_SUCCESS,
+          user
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: GET_ERRORS,
+          payload: err
+        });
+        dispatch({ type: AUTH_FAILED });
       });
-    })
-    .catch(err => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err
-      });
-      dispatch({ type: AUTH_FAILED });
-    });
+  });
 };
 
 // Logout user
@@ -105,6 +113,7 @@ export const setCurrentUser = authUser => dispatch => {
       }
     });
   } else {
+    console.log('Logging out...');
     logoutUser();
   }
 };
