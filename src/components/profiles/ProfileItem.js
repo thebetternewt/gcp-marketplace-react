@@ -42,10 +42,8 @@ const ProfileItem = styled.div`
   }
 `;
 
-export default (props) => {
-  const {
- id, name, bio, categories 
-} = props.profile;
+export default props => {
+  const { handle, name, bio, categories } = props.profile;
   const categoryTags = categories.map(cat => (
     <Tag key={cat} bgColor="lightGreen" text={cat.trim()} />
   ));
@@ -56,7 +54,7 @@ export default (props) => {
         <p>{bio.short}</p>
         <p className="tags">{categoryTags}</p>
       </div>
-      <Link to={`/profile/${id}`}>
+      <Link to={`/profile/${handle}`}>
         <button>View Profile</button>
       </Link>
     </ProfileItem>

@@ -1,6 +1,7 @@
 import validate from 'validate.js';
 import { GET_ERRORS, GET_PROFILE, PROFILE_LOADING } from './types';
 import { auth, db } from '../../firebase';
+import { doGetProfile, doGetProfileByHandle } from '../../firebase/db';
 
 // Profile loading
 export const setProfileLoading = () => ({
@@ -8,24 +9,49 @@ export const setProfileLoading = () => ({
 });
 
 // Get current profile
-// export const getCurrentProfile = () => dispatch => {
-//   dispatch(setProfileLoading());
-//   axios
-//     .get('/api/profile')
-//     .then(res => {
-//       dispatch({
-//         type: GET_PROFILE,
-//         payload: res.data
-//       });
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       dispatch({
-//         type: GET_PROFILE,
-//         payload: {}
-//       });
-//     });
-// };
+export const getCurrentProfile = () => dispatch => {
+  dispatch(setProfileLoading());
+
+  const userId = auth.currentUser().uid;
+  doGetProfile(userId)
+    .then(snapshot => {
+      const profile = snapshot.docs[0].data();
+      console.log(profile);
+      dispatch({
+        type: GET_PROFILE,
+        profile
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_PROFILE,
+        payload: {}
+      });
+    });
+};
+
+// Get profile by handle
+export const getProfileByHandle = handle => dispatch => {
+  dispatch(setProfileLoading());
+
+  doGetProfileByHandle(handle)
+    .then(snapshot => {
+      const profile = snapshot.docs[0].data();
+      console.log(profile);
+      dispatch({
+        type: GET_PROFILE,
+        profile
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_PROFILE,
+        payload: {}
+      });
+    });
+};
 
 // Create profile
 export const createProfile = (profileData, history) => dispatch => {
@@ -42,7 +68,7 @@ export const createProfile = (profileData, history) => dispatch => {
     }
   };
 
-  const errors = validate({ ...profileData }, constraints);
+  const errors = validate(profileData, constraints);
   console.log(errors);
   if (errors) {
     dispatch({

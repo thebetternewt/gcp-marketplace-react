@@ -2,6 +2,7 @@ export default [
   {
     id: 1,
     name: 'Chris',
+    handle: 'chris',
     bio: {
       short:
         'Row scuttle parrel provost Sail ho shrouds spirits boom mizzenmast yardarm.',
@@ -13,6 +14,7 @@ export default [
   {
     id: 2,
     name: 'John',
+    handle: 'john',
     bio: {
       short:
         'Row scuttle parrel provost Sail ho shrouds spirits boom mizzenmast yardarm.'
@@ -22,6 +24,7 @@ export default [
   {
     id: 3,
     name: 'Will',
+    handle: 'will',
     bio: {
       short:
         'Row scuttle parrel provost Sail ho shrouds spirits boom mizzenmast yardarm.'
@@ -31,6 +34,7 @@ export default [
   {
     id: 4,
     name: 'Sam',
+    handle: 'sam',
     bio: {
       short:
         'Row scuttle parrel provost Sail ho shrouds spirits boom mizzenmast yardarm.'

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -9,11 +9,11 @@ import ContentContainer from '../common/ContentContainer';
 import Spinner from '../common/Spinner';
 import Profile from './Profile';
 
-import userPlaceholder from '../../images/user.png';
+import { getCurrentProfile } from '../../store/actions/profileActions';
 
 class Dashboard extends Component {
-  state = {
-    loading: true
+  componentDidMount = () => {
+    this.props.getCurrentProfile();
   };
 
   render() {
@@ -27,17 +27,16 @@ class Dashboard extends Component {
       <ContentContainer>
         <Box padding="15px">
           <h2>Welcome, {user.name}!</h2>
-          <p>You do not have a profile... yet!</p>
-          <Link to="/create-profile">
-            <Button>Create Profile</Button>
-          </Link>
+          {!profile && (
+            <Fragment>
+              <p>You do not have a profile... yet!</p>
+              <Link to="/create-profile">
+                <Button>Create Profile</Button>
+              </Link>
+            </Fragment>
+          )}
         </Box>
-        {profile && (
-          <Profile
-            profileImage={user.photoUrl || userPlaceholder}
-            name={user.name}
-          />
-        )}
+        {profile && <Profile profile={profile} />}
       </ContentContainer>
     );
   }
@@ -45,12 +44,22 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   user: PropTypes.shape().isRequired,
-  loading: PropTypes.bool.isRequired
+  profile: PropTypes.shape(),
+  loading: PropTypes.bool.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired
+};
+
+Dashboard.defaultProps = {
+  profile: {}
 };
 
 const mapStateToProps = state => ({
   user: state.auth.user,
+  profile: state.profile.profile,
   loading: state.auth.loading
 });
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(
+  mapStateToProps,
+  { getCurrentProfile }
+)(Dashboard);

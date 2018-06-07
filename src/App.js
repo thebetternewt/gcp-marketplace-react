@@ -33,7 +33,7 @@ class App extends Component {
           <Route exact path="/" component={HomePage} />
           <Switch>
             <Route exact path="/profiles" component={Profiles} />
-            <Route exact path="/profile/:id" component={ProfilePage} />
+            <Route exact path="/profile/:handle" component={ProfilePage} />
             <Route exact path="/signup" component={Register} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/logout" component={Logout} />

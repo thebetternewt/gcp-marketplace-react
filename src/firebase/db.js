@@ -1,4 +1,4 @@
-import { db } from './firebase';
+import { auth, db } from './firebase';
 
 // User API
 
@@ -22,10 +22,28 @@ export const doGetUser = id => {
 // Profile API
 
 export const doCreateProfile = profileData => {
-  const { handle, bio, userRef } = profileData;
+  const userId = auth.currentUser.uid;
+  const userRef = db.collection('users').doc(userId);
 
   return db.collection('profiles').add({
-    handle,
-    bio
+    ...profileData,
+    user: userRef
   });
 };
+
+export const doGetProfile = userId => {
+  const userRef = db.collection('users').doc(userId);
+
+  return db
+    .collection('profiles')
+    .where('user', '==', userRef)
+    .limit(1)
+    .get();
+};
+
+export const doGetProfileByHandle = handle =>
+  db
+    .collection('profiles')
+    .where('handle', '==', handle)
+    .limit(1)
+    .get();

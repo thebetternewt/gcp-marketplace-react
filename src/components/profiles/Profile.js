@@ -5,22 +5,22 @@ import styled from 'styled-components';
 import Tag from '../common/Tag';
 import ProfileImage from './ProfileImage';
 
-import profiles from '../../data/profiles';
-
 const Profile = props => {
-  const profile = profiles[0];
+  // const profile = profiles[0];
 
-  const { categories } = profile;
+  // const { categories } = profile;
 
-  const categoryTags = categories.map((cat, index) => (
-    <Tag key={index} bgColor="yellow" text={cat} className="tag" />
-  ));
+  // const categoryTags = categories.map((cat, index) => (
+  //   <Tag key={index} bgColor="yellow" text={cat} className="tag" />
+  // ));
+
+  const { name, bio } = props.profile;
 
   return (
     <ProfileLayout>
       <div className="col-1">
         <ProfileImage imgUrl={props.imgUrl} size="200px" />
-        <h3 className="name">{props.name}</h3>
+        <h3 className="name">{name}</h3>
         <SocialLinks>
           <ul>
             <li>
@@ -39,18 +39,18 @@ const Profile = props => {
         </SocialLinks>
         <Categories>
           <span className="label">Focused on:</span>
-          {categoryTags}
+          {/* {categoryTags} */}
         </Categories>
       </div>
       <div className="col-2">
         <div className="bio">
           <h4>Bio:</h4>
-          <p>{props.bio || `${props.name} doesn't have a bio yet.`}</p>
+          <p>{bio || `${name} doesn't have a bio yet.`}</p>
         </div>
 
         <Skills>
           <span className="label">Skills:</span>
-          {categoryTags}
+          {/* {categoryTags} */}
         </Skills>
         <Contributions>
           <h4>Contributions:</h4>
@@ -62,15 +62,7 @@ const Profile = props => {
 };
 
 Profile.propTypes = {
-  profileImage: PropTypes.string,
-  name: PropTypes.string,
-  bio: PropTypes.string
-};
-
-Profile.defaultProps = {
-  profileImage: null,
-  name: null,
-  bio: null
+  profile: PropTypes.shape().isRequired
 };
 
 export default Profile;
