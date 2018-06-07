@@ -25,10 +25,11 @@ class App extends Component {
 
     firebase.auth.onAuthStateChanged(user => {
       if (user) {
+        // Set current user if user logged in
         this.props.setCurrentUser(user);
       } else {
+        // Logout user
         this.props.logoutUser();
-        console.log('User logged out...');
         if (history.location.pathname !== '/') {
           history.push('/');
         }

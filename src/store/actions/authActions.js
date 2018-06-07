@@ -72,7 +72,6 @@ export const loginUser = (email, password) => dispatch => {
   auth.doSignInWithEmailAndPassword(email, password).then(res => {
     db.doGetUser(res.user.uid)
       .then(userRef => {
-        console.log('User ref ', userRef);
         const userData = userRef.data();
         const user = {
           id: userRef.id,
