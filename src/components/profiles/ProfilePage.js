@@ -1,23 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Container from '../common/ContentContainer';
 import Profile from './Profile';
 import Spinner from '../common/Spinner';
-import { Box, Button } from '../UI';
+import NotFound from './NotFound';
+
 import { getProfileByHandle } from '../../store/actions/profileActions';
 
 class ProfilePage extends Component {
   componentDidMount = () => {
     this.props.getProfileByHandle(this.props.match.params.handle);
   };
-
-  // componentWillReceiveProps = nextProps => {
-  //   if (nextProps.profile.profile === null && this.props.profile.loading) {
-  //     this.props.history.push('/not-found');
-  //   }
-  // };
 
   render() {
     const { loading, profile } = this.props.profile;
@@ -29,14 +25,19 @@ class ProfilePage extends Component {
     return (
       <Container>
         {profile ? (
-          <Profile profile={profile} />
+          <Fragment>
+            <Helmet>
+              <meta charSet="utf-8" />
+              <title>{profile.name} | The Marketplace</title>
+              <meta
+                name="description"
+                content={`${profile.name} - ${profile.bio}`}
+              />
+            </Helmet>
+            <Profile profile={profile} />
+          </Fragment>
         ) : (
-          <Box>
-            <h3>No Profile Found</h3>
-            <Link to="/profiles">
-              <Button>Back to Profiles</Button>
-            </Link>
-          </Box>
+          <NotFound />
         )}
       </Container>
     );

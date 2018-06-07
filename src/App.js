@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -40,6 +41,14 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Home | The Marketplace</title>
+          <meta
+            name="description"
+            content="A social network where Christian creatives can connect."
+          />
+        </Helmet>
         <Layout>
           <Route exact path="/" component={HomePage} />
           <Switch>
