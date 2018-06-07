@@ -22,7 +22,7 @@ class Dashboard extends Component {
     }
 
     const { user, profile } = this.props;
-    const firstName = user.name.split(' ')[0];
+    const firstName = user.name && user.name.split(' ')[0];
 
     return (
       <ContentContainer>
@@ -46,7 +46,8 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   user: PropTypes.shape().isRequired,
   profile: PropTypes.shape(),
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired
 };
 
 Dashboard.defaultProps = {
