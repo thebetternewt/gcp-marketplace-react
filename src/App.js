@@ -15,7 +15,6 @@ import ProfilePage from './components/profiles/ProfilePage';
 import Dashboard from './components/profiles/Dashboard';
 import CreateProfile from './components/profiles/CreateProfile';
 import { setCurrentUser } from './store/actions/authActions';
-import { firebase } from './firebase';
 
 import './App.css';
 
