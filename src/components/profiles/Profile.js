@@ -14,12 +14,12 @@ const Profile = props => {
   //   <Tag key={index} bgColor="yellow" text={cat} className="tag" />
   // ));
 
-  const { name, bio } = props.profile;
+  const { name, bio, imgUrl } = props.profile;
 
   return (
     <ProfileLayout>
       <div className="col-1">
-        <ProfileImage imgUrl={props.imgUrl} size="200px" />
+        <ProfileImage imgUrl={imgUrl} size="200px" />
         <h3 className="name">{name}</h3>
         <SocialLinks>
           <ul>

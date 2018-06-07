@@ -1,13 +1,13 @@
 import {
   GET_PROFILE,
-  // GET_PROFILES,
-  PROFILE_LOADING
-  // CLEAR_CURRENT_PROFILE
+  GET_PROFILES,
+  PROFILE_LOADING,
+  CLEAR_CURRENT_PROFILE
 } from '../actions/types';
 
 const initialState = {
   profile: null,
-  profiles: null,
+  profiles: [],
   loading: false
 };
 
@@ -24,17 +24,17 @@ export default (state = initialState, action) => {
         profile: action.profile,
         loading: false
       };
-    // case GET_PROFILES:
-    //   return {
-    //     ...state,
-    //     profiles: action.payload,
-    //     loading: false
-    //   };
-    // case CLEAR_CURRENT_PROFILE:
-    //   return {
-    //     ...state,
-    //     profile: null
-    //   };
+    case GET_PROFILES:
+      return {
+        ...state,
+        profiles: action.profiles,
+        loading: false
+      };
+    case CLEAR_CURRENT_PROFILE:
+      return {
+        ...state,
+        profile: null
+      };
     default:
       return state;
   }

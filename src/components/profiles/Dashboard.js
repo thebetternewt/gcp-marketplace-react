@@ -22,11 +22,12 @@ class Dashboard extends Component {
     }
 
     const { user, profile } = this.props;
+    const firstName = user.name.split(' ')[0];
 
     return (
       <ContentContainer>
         <Box padding="15px">
-          <h2>Welcome, {user.name}!</h2>
+          <h2>Welcome, {firstName}!</h2>
           {!profile && (
             <Fragment>
               <p>You do not have a profile... yet!</p>

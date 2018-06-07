@@ -40,6 +40,7 @@ class CreateProfile extends Component {
     e.preventDefault();
 
     const profileData = {
+      name: this.props.user.name,
       handle: this.state.handle,
       bio: this.state.bio
     };
@@ -79,7 +80,8 @@ class CreateProfile extends Component {
 CreateProfile.propTypes = {
   user: PropTypes.shape().isRequired,
   createProfile: PropTypes.func.isRequired,
-  errors: PropTypes.shape().isRequired
+  errors: PropTypes.shape().isRequired,
+  history: PropTypes.shape().isRequired
 };
 
 const mapStateToProps = state => ({

@@ -36,19 +36,23 @@ export const registerUser = (name, email, password) => dispatch => {
     auth
       .doCreateUserWithEmailAndPassword(email, password)
       .then(res => {
+        const { uid } = res.user;
         // Create user in Firestore
-        db.doCreateUser(res.user.uid, name, email).then(docRef => {
-          // console.log('User created with id: ', docRef.id);
-          const user = {
-            name: docRef.name,
-            email: docRef.email
-          };
+        db.doCreateUser(uid, name, email)
+          .then(() => db.doGetUser(uid))
+          .then(docRef => {
+            console.log('User created with id: ', docRef.data().id);
+            const userData = docRef.data();
+            const user = {
+              name: userData.name,
+              email: userData.email
+            };
 
-          dispatch({
-            type: AUTH_SUCCESS,
-            user
+            dispatch({
+              type: AUTH_SUCCESS,
+              user
+            });
           });
-        });
       })
       .catch(err => {
         dispatch({

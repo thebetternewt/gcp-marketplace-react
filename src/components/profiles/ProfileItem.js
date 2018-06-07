@@ -43,7 +43,9 @@ const ProfileItem = styled.div`
 `;
 
 export default props => {
-  const { handle, name, bio, categories } = props.profile;
+  const { handle, name, bio } = props.profile;
+  // Temp var:
+  const categories = ['Songwriting', 'Music production', 'Animation'];
   const categoryTags = categories.map(cat => (
     <Tag key={cat} bgColor="lightGreen" text={cat.trim()} />
   ));

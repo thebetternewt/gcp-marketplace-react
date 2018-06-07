@@ -8,4 +8,6 @@ export const AUTH_FAILED = 'AUTH_FAILED';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
 export const GET_PROFILE = 'GET_PROFILE';
+export const GET_PROFILES = 'GET_PROFILES';
 export const PROFILE_LOADING = 'PROFILE_LOADING';
+export const CLEAR_CURRENT_PROFILE = 'CLEAR_CURRENT_PROFILE';

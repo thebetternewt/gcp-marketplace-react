@@ -21,25 +21,23 @@ export const doGetUser = id => {
 
 // Profile API
 
+export const doGetProfiles = () => db.collection('profiles').get();
+
 export const doCreateProfile = profileData => {
   const userId = auth.currentUser.uid;
-  const userRef = db.collection('users').doc(userId);
 
   return db.collection('profiles').add({
     ...profileData,
-    user: userRef
+    user: userId
   });
 };
 
-export const doGetProfile = userId => {
-  const userRef = db.collection('users').doc(userId);
-
-  return db
+export const doGetProfile = userId =>
+  db
     .collection('profiles')
-    .where('user', '==', userRef)
+    .where('user', '==', userId)
     .limit(1)
     .get();
-};
 
 export const doGetProfileByHandle = handle =>
   db
