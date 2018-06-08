@@ -3,16 +3,22 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Tag from '../common/Tag';
+import { Box, COOL_WHITE } from '../UI';
 import ProfileImage from './ProfileImage';
 
 const Profile = props => {
-  // const profile = profiles[0];
-
   // const { categories } = profile;
 
-  // const categoryTags = categories.map((cat, index) => (
-  //   <Tag key={index} bgColor="yellow" text={cat} className="tag" />
-  // ));
+  const categories = [
+    'Web Development',
+    'Graphic Design',
+    'Programming',
+    'A Fourth Skill'
+  ];
+
+  const categoryTags = categories.map((cat, index) => (
+    <Tag key={index} bgColor="yellow" text={cat} className="tag" />
+  ));
 
   const { name, bio, imgUrl } = props.profile;
 
@@ -20,7 +26,7 @@ const Profile = props => {
     <ProfileLayout>
       <div className="col-1">
         <ProfileImage imgUrl={imgUrl} size="200px" />
-        <h3 className="name">{name}</h3>
+        <Name>{name}</Name>
         <SocialLinks>
           <ul>
             <li>
@@ -39,18 +45,20 @@ const Profile = props => {
         </SocialLinks>
         <Categories>
           <span className="label">Focused on:</span>
-          {/* {categoryTags} */}
+          {categoryTags}
         </Categories>
       </div>
       <div className="col-2">
-        <div className="bio">
+        <Bio>
+          {/* <div className="bio"> */}
           <h4>Bio:</h4>
           <p>{bio || `${name} doesn't have a bio yet.`}</p>
-        </div>
+          {/* </div> */}
+        </Bio>
 
         <Skills>
           <span className="label">Skills:</span>
-          {/* {categoryTags} */}
+          {categoryTags}
         </Skills>
         <Contributions>
           <h4>Contributions:</h4>
@@ -81,21 +89,6 @@ const ProfileLayout = styled.div`
     width: 100%;
   }
 
-  .name {
-    font-family: 'Montserrat', 'Helvetica', Arial, sans-serif;
-    font-size: 1.3rem;
-    margin: 0.9em 0 0.5em;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-  .bio {
-    background-color: #e1eaf2;
-    box-shadow: 2px 3px 12px rgba(0, 0, 0, 0.2);
-    min-height: 200px;
-    padding: 0 15px;
-  }
-
   @media (min-width: 800px) {
     align-items: flex-start;
     flex-direction: row;
@@ -109,27 +102,39 @@ const ProfileLayout = styled.div`
   }
 `;
 
-const Skills = styled.div`
-  background-color: #e1eaf2;
-  box-shadow: 2px 3px 12px rgba(0, 0, 0, 0.2);
-  margin-top: 15px;
-  padding: 15px;
+const Name = styled.h3`
+  font-family: 'Montserrat', 'Helvetica', Arial, sans-serif;
+  font-size: 1.3rem;
+  margin: 0.9em 0 0.5em;
+  text-align: center;
+  text-transform: uppercase;
+`;
 
-  .label {
-    font-weight: 600;
-    margin: 10px 15px 15px 0;
+const Bio = styled(Box)`
+  min-height: 200px;
+
+  h4 {
+    margin-top: 5px;
   }
 `;
 
-const Categories = styled.div`
-  background-color: #e1eaf2;
-  box-shadow: 2px 3px 12px rgba(0, 0, 0, 0.2);
-  margin: 25px 0;
-  padding: 15px;
+const Skills = styled(Box)`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 15px;
 
   .label {
     font-weight: 600;
     margin-right: 15px;
+  }
+`;
+
+const Categories = styled(Box)`
+  .label {
+    font-weight: 600;
+    display: block;
+    margin-top: 5px;
   }
 
   @media (min-width: 800px) {
@@ -152,7 +157,7 @@ const SocialLinks = styled.div`
 
     li {
       align-items: center;
-      background-color: #e1eaf2;
+      background-color: ${COOL_WHITE};
       border-radius: 99px;
       box-shadow: 2px 3px 12px rgba(0, 0, 0, 0.2);
       display: flex;
@@ -164,10 +169,10 @@ const SocialLinks = styled.div`
   }
 `;
 
-const Contributions = styled.div`
-  background-color: #e1eaf2;
-  box-shadow: 2px 3px 12px rgba(0, 0, 0, 0.2);
-  margin: 15px 0;
+const Contributions = styled(Box)`
   min-height: 300px;
-  padding: 0 15px;
+
+  h4 {
+    margin-top: 5px;
+  }
 `;

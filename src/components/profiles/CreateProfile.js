@@ -63,6 +63,7 @@ class CreateProfile extends Component {
               value={handle}
               onChange={this.handleChange}
             />
+            {/* TODO: Make sure handle is unique */}
             {errors.handle && <ErrorMessage>{errors.handle[0]}</ErrorMessage>}
 
             <Label htmlFor="bio">Bio:</Label>

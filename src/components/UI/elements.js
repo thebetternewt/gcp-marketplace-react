@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+import { COOL_WHITE, PRIMARY_BLUE } from './colors';
 
 export const Box = styled.div`
-  background-color: #e1eaf2;
+  background-color: ${COOL_WHITE};
   box-shadow: 2px 3px 12px rgba(0, 0, 0, 0.2);
   margin: ${props => props.margin || '15px 0'};
   padding: ${props => props.padding || '15px'};
@@ -10,7 +11,7 @@ export const Box = styled.div`
 
 export const Button = styled.button`
   color: #fff;
-  background-color: rgb(70, 129, 181);
+  background-color: ${PRIMARY_BLUE};
   box-shadow: 2px 3px 12px rgba(0, 0, 0, 0.2);
   border: none;
   border-radius: 0;
@@ -23,8 +24,8 @@ export const Button = styled.button`
   cursor: pointer;
 
   &:hover, &:active {
-    color: rgb(70, 129, 181);
+    color: ${PRIMARY_BLUE};
     background-color: #fff;
-    outline 3px solid rgb(70, 129, 181);
+    outline 3px solid ${PRIMARY_BLUE};
   }
 `;
