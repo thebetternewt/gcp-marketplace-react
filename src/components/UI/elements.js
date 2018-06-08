@@ -29,3 +29,12 @@ export const Button = styled.button`
     outline 3px solid ${PRIMARY_BLUE};
   }
 `;
+
+// TEXT
+
+export const H1 = styled.h1`
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-top: 1em;
+  align-self: center;
+`;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Box, Button } from '../UI';
+import { Box, Button, H1 } from '../UI';
 
 import ContentContainer from '../common/ContentContainer';
 import Spinner from '../common/Spinner';
@@ -27,7 +27,7 @@ class Dashboard extends Component {
     return (
       <ContentContainer>
         <Box padding="15px">
-          <h2>Welcome, {firstName}!</h2>
+          <H1 style={{ marginTop: '15px' }}>Welcome, {firstName}!</H1>
           {!profile && (
             <Fragment>
               <p>You do not have a profile... yet!</p>
