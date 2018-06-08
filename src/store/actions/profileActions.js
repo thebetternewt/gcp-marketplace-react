@@ -7,7 +7,6 @@ import {
   CLEAR_CURRENT_PROFILE
 } from './types';
 import { auth, db } from '../../firebase';
-import { doGetProfile, doGetProfileByHandle } from '../../firebase/db';
 
 // Profile loading
 export const setProfileLoading = () => ({
@@ -42,7 +41,8 @@ export const getCurrentProfile = () => dispatch => {
   dispatch(setProfileLoading());
 
   const userId = auth.currentUser().uid;
-  doGetProfile(userId)
+
+  db.doGetProfileByUser(userId)
     .then(snapshot => {
       if (!snapshot.empty) {
         const profile = snapshot.docs[0].data();
@@ -65,30 +65,46 @@ export const getCurrentProfile = () => dispatch => {
 export const getProfileByHandle = handle => dispatch => {
   dispatch(setProfileLoading());
 
-  doGetProfileByHandle(handle)
-    .then(snapshot => {
-      if (!snapshot.empty) {
-        const profile = snapshot.docs[0].data();
-        dispatch({
-          type: GET_PROFILE,
-          profile
-        });
-      } else {
-        dispatch({
-          type: GET_PROFILE,
-          profile: null
-        });
-      }
+  db.doGetProfileByHandle(handle)
+    .then(profile => {
+      dispatch({
+        type: GET_PROFILE,
+        profile: profile.data()
+      });
     })
     .catch(err => {
       console.log(err);
+      dispatch({
+        type: GET_PROFILE,
+        profile: null
+      });
     });
+  // doGetProfileByHandle(handle)
+  //   .then(snapshot => {
+  //     if (!snapshot.empty) {
+  //       const profile = snapshot.docs[0].data();
+  //       dispatch({
+  //         type: GET_PROFILE,
+  //         profile
+  //       });
+  //     } else {
+  //       dispatch({
+  //         type: GET_PROFILE,
+  //         profile: null
+  //       });
+  //     }
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //   });
 };
 
 // Create profile
 export const createProfile = (profileData, history) => dispatch => {
   dispatch(setProfileLoading());
+
   console.log(profileData);
+
   const constraints = {
     handle: {
       presence: { allowEmpty: false },
@@ -100,20 +116,45 @@ export const createProfile = (profileData, history) => dispatch => {
     }
   };
 
-  const errors = validate(profileData, constraints);
+  // Check for user input errors
+  let errors;
+  errors = validate(profileData, constraints);
   console.log(errors);
   if (errors) {
     dispatch({
       type: GET_ERRORS,
       payload: errors
     });
-  } else {
-    console.log('no errors');
-
-    db.doCreateProfile(profileData).then(() => {
-      history.push('/dashboard');
-    });
+    return;
   }
+  // Attempt to get profileRef by handle
+  db.doGetProfileByHandle(profileData.handle).then(profile => {
+    console.log(profile.exists);
+    // If profile exists => error - handle must be unique
+    if (profile.exists) {
+      console.log('handle already taken');
+      errors = { handle: ['handle already taken'] };
+      if (errors) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: errors
+        });
+      }
+    } else {
+      // Else, create Profile with handle as ID
+      db.doCreateProfile(profileData)
+        .then(() => {
+          history.push('/dashboard');
+        })
+        .catch(err => {
+          console.log(err);
+          dispatch({
+            type: GET_ERRORS,
+            payload: err
+          });
+        });
+    }
+  });
 };
 
 // Clear current profile

@@ -25,23 +25,31 @@ export const doGetProfiles = () => db.collection('profiles').get();
 
 export const doCreateProfile = profileData => {
   const userId = auth.currentUser.uid;
+  const userRef = db.collection('users').doc(userId);
 
-  return db.collection('profiles').add({
-    ...profileData,
-    user: userId
-  });
+  return db
+    .collection('profiles')
+    .doc(profileData.handle)
+    .set({
+      ...profileData,
+      user: userRef
+    });
 };
 
-export const doGetProfile = userId =>
-  db
+export const doGetProfileByUser = userId => {
+  const userRef = db.collection('users').doc(userId);
+
+  return db
     .collection('profiles')
-    .where('user', '==', userId)
+    .where('user', '==', userRef)
     .limit(1)
     .get();
+};
 
 export const doGetProfileByHandle = handle =>
   db
     .collection('profiles')
-    .where('handle', '==', handle)
-    .limit(1)
+    .doc(handle)
     .get();
+export const doGetProfileRefByHandle = handle =>
+  db.collection('profiles').doc(handle);

@@ -20,7 +20,22 @@ const Profile = props => {
     <Tag key={index} bgColor="yellow" text={cat} className="tag" />
   ));
 
-  const { name, bio, imgUrl } = props.profile;
+  const { name, bio, imgUrl, skills } = props.profile;
+
+  let skillTags;
+
+  if (skills) {
+    skillTags = skills
+      .split(',')
+      .map((skill, index) => (
+        <Tag
+          key={index}
+          bgColor="lightgreen"
+          text={skill.trim()}
+          className="tag"
+        />
+      ));
+  }
 
   return (
     <ProfileLayout>
@@ -58,7 +73,7 @@ const Profile = props => {
 
         <Skills>
           <span className="label">Skills:</span>
-          {categoryTags}
+          {skillTags}
         </Skills>
         <Contributions>
           <h4>Contributions:</h4>

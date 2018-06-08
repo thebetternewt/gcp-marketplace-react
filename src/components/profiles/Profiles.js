@@ -23,7 +23,7 @@ class Profiles extends Component {
       profileItems = <Spinner />;
     } else {
       profileItems = profiles.map(profile => (
-        <ProfileItem key={profile.user} profile={profile} />
+        <ProfileItem key={profile.handle} profile={profile} />
       ));
     }
 

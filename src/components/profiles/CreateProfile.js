@@ -42,20 +42,21 @@ class CreateProfile extends Component {
     const profileData = {
       name: this.props.user.name,
       handle: this.state.handle,
-      bio: this.state.bio
+      bio: this.state.bio,
+      skills: this.state.skills
     };
 
     this.props.createProfile(profileData, this.props.history);
   };
 
   render() {
-    const { handle, bio, errors } = this.state;
+    const { handle, bio, skills, errors } = this.state;
 
     return (
       <ContentContainer>
         <Box>
           <H1>Create Your Profile</H1>
-          <form onSubmit={this.handleSubmit}>
+          <ProfileForm>
             <Label htmlFor="handle">Handle:</Label>
             <Input
               type="text"
@@ -63,15 +64,23 @@ class CreateProfile extends Component {
               value={handle}
               onChange={this.handleChange}
             />
-            {/* TODO: Make sure handle is unique */}
             {errors.handle && <ErrorMessage>{errors.handle[0]}</ErrorMessage>}
 
             <Label htmlFor="bio">Bio:</Label>
             <TextArea name="bio" value={bio} onChange={this.handleChange} />
             {errors.bio && <ErrorMessage>{errors.bio[0]}</ErrorMessage>}
 
-            <Button type="submit">Submit</Button>
-          </form>
+            <Label htmlFor="skills">Skills:</Label>
+            <Input
+              type="text"
+              name="skills"
+              value={skills}
+              onChange={this.handleChange}
+            />
+            <InputInfo>Enter your skills separated by commas.</InputInfo>
+            {errors.skills && <ErrorMessage>{errors.skills[0]}</ErrorMessage>}
+          </ProfileForm>
+          <Button onClick={this.handleSubmit}>Submit</Button>
         </Box>
       </ContentContainer>
     );
@@ -114,7 +123,11 @@ const Input = styled.input`
   font-size: 1em;
   min-width: 50%;
   padding: 10px;
-  margin-bottom: 1.5rem;
+`;
+
+const InputInfo = styled.p`
+  font-size: 0.8em;
+  opacity: 0.6;
 `;
 
 const TextArea = styled.textarea`
@@ -122,13 +135,16 @@ const TextArea = styled.textarea`
   border: none;
   outline: 2px solid #ddd;
   font-size: 1em;
-  width: 100%;
+  min-width: 50%;
   height: 100px;
   padding: 10px;
-  margin-bottom: 1.5rem;
 `;
 
 const ErrorMessage = styled.p`
   color: red;
   /* text-align: center; */
+`;
+
+const ProfileForm = styled.form`
+  margin: 1rem 0 2rem;
 `;

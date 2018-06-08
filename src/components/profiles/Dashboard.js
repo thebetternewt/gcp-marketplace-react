@@ -26,7 +26,7 @@ class Dashboard extends Component {
 
     return (
       <ContentContainer>
-        <Box padding="15px">
+        <Box>
           <H1 style={{ marginTop: '15px' }}>Welcome, {firstName}!</H1>
           {!profile && (
             <Fragment>
