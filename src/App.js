@@ -19,6 +19,7 @@ import { setCurrentUser, logoutUser } from './store/actions/authActions';
 import { firebase } from './firebase';
 
 import './App.css';
+import DeleteAccount from './components/profiles/DeleteAccount';
 
 class App extends Component {
   componentDidMount = () => {
@@ -66,6 +67,13 @@ class App extends Component {
               exact
               path="/create-profile"
               component={CreateProfile}
+            />
+          </Switch>
+          <Switch>
+            <PrivateRoute
+              exact
+              path="/delete-account"
+              component={DeleteAccount}
             />
           </Switch>
         </Layout>

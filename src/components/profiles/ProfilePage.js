@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Container from '../common/ContentContainer';

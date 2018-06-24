@@ -15,7 +15,6 @@ class CreateProfile extends Component {
     location: '',
     skills: '',
     website: '',
-    github_username: '',
     twitter: '',
     facebook: '',
     linkedin: '',
@@ -43,14 +42,82 @@ class CreateProfile extends Component {
       name: this.props.user.name,
       handle: this.state.handle,
       bio: this.state.bio,
-      skills: this.state.skills
+      skills: this.state.skills,
+      location: this.state.location,
+      website: this.state.website,
+      twitter: this.state.twitter,
+      facebook: this.state.facebook,
+      linkedin: this.state.linkedin,
+      youtube: this.state.youtube,
+      instagram: this.state.instagram
     };
 
     this.props.createProfile(profileData, this.props.history);
   };
 
   render() {
-    const { handle, bio, skills, errors } = this.state;
+    const {
+      handle,
+      bio,
+      skills,
+      errors,
+      location,
+      website,
+      twitter,
+      facebook,
+      instagram,
+      youtube,
+      linkedin
+    } = this.state;
+
+    const socialInputs = (
+      <div>
+        <Label htmlFor="twitter">Twitter URL:</Label>
+        <Input
+          type="text"
+          name="twitter"
+          value={twitter}
+          onChange={this.handleChange}
+        />
+        {errors.twitter && <ErrorMessage>{errors.twitter[0]}</ErrorMessage>}
+
+        <Label htmlFor="facebook">Facebook URL:</Label>
+        <Input
+          type="text"
+          name="facebook"
+          value={facebook}
+          onChange={this.handleChange}
+        />
+        {errors.facebook && <ErrorMessage>{errors.facebook[0]}</ErrorMessage>}
+
+        <Label htmlFor="instagram">Instagram URL:</Label>
+        <Input
+          type="text"
+          name="instagram"
+          value={instagram}
+          onChange={this.handleChange}
+        />
+        {errors.instagram && <ErrorMessage>{errors.instagram[0]}</ErrorMessage>}
+
+        <Label htmlFor="youtube">Youtube URL:</Label>
+        <Input
+          type="text"
+          name="youtube"
+          value={youtube}
+          onChange={this.handleChange}
+        />
+        {errors.youtube && <ErrorMessage>{errors.youtube[0]}</ErrorMessage>}
+
+        <Label htmlFor="linkedin">LinkedIn URL:</Label>
+        <Input
+          type="text"
+          name="linkedin"
+          value={linkedin}
+          onChange={this.handleChange}
+        />
+        {errors.linkedin && <ErrorMessage>{errors.linkedin[0]}</ErrorMessage>}
+      </div>
+    );
 
     return (
       <ContentContainer>
@@ -79,6 +146,30 @@ class CreateProfile extends Component {
             />
             <InputInfo>Enter your skills separated by commas.</InputInfo>
             {errors.skills && <ErrorMessage>{errors.skills[0]}</ErrorMessage>}
+
+            <Label htmlFor="skills">Location:</Label>
+            <Input
+              type="text"
+              name="location"
+              value={location}
+              onChange={this.handleChange}
+            />
+            <InputInfo>Ex: "Denver, CO"</InputInfo>
+            {errors.location && (
+              <ErrorMessage>{errors.location[0]}</ErrorMessage>
+            )}
+
+            <Label htmlFor="website">Website:</Label>
+            <Input
+              type="text"
+              name="website"
+              value={website}
+              onChange={this.handleChange}
+            />
+            {errors.website && <ErrorMessage>{errors.website[0]}</ErrorMessage>}
+
+            <h4>Social Links</h4>
+            {socialInputs}
           </ProfileForm>
           <Button onClick={this.handleSubmit}>Submit</Button>
         </Box>
@@ -135,7 +226,7 @@ const TextArea = styled.textarea`
   border: none;
   outline: 2px solid #ddd;
   font-size: 1em;
-  min-width: 50%;
+  min-width: 100%;
   height: 100px;
   padding: 10px;
 `;

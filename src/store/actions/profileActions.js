@@ -4,9 +4,11 @@ import {
   GET_PROFILE,
   GET_PROFILES,
   PROFILE_LOADING,
-  CLEAR_CURRENT_PROFILE
+  CLEAR_CURRENT_PROFILE,
+  DELETE_PROFILE
 } from './types';
 import { auth, db } from '../../firebase';
+import { setCurrentUser } from './authActions';
 
 // Profile loading
 export const setProfileLoading = () => ({
@@ -79,24 +81,6 @@ export const getProfileByHandle = handle => dispatch => {
         profile: null
       });
     });
-  // doGetProfileByHandle(handle)
-  //   .then(snapshot => {
-  //     if (!snapshot.empty) {
-  //       const profile = snapshot.docs[0].data();
-  //       dispatch({
-  //         type: GET_PROFILE,
-  //         profile
-  //       });
-  //     } else {
-  //       dispatch({
-  //         type: GET_PROFILE,
-  //         profile: null
-  //       });
-  //     }
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //   });
 };
 
 // Create profile
@@ -154,6 +138,15 @@ export const createProfile = (profileData, history) => dispatch => {
           });
         });
     }
+  });
+};
+
+// Delete profile
+export const deleteAccount = () => dispatch => {
+  db.doDeleteAccount();
+  setCurrentUser();
+  dispatch({
+    type: DELETE_PROFILE
   });
 };
 

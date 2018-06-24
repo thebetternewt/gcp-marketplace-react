@@ -2,7 +2,8 @@ import {
   GET_PROFILE,
   GET_PROFILES,
   PROFILE_LOADING,
-  CLEAR_CURRENT_PROFILE
+  CLEAR_CURRENT_PROFILE,
+  DELETE_PROFILE
 } from '../actions/types';
 
 const initialState = {
@@ -29,6 +30,11 @@ export default (state = initialState, action) => {
         ...state,
         profiles: action.profiles,
         loading: false
+      };
+    case DELETE_PROFILE:
+      return {
+        ...state,
+        profile: null
       };
     case CLEAR_CURRENT_PROFILE:
       return {

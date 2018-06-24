@@ -126,6 +126,7 @@ const Name = styled.h3`
 `;
 
 const Bio = styled(Box)`
+  margin-top: 0;
   min-height: 200px;
 
   h4 {
@@ -137,7 +138,7 @@ const Skills = styled(Box)`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 15px;
+  margin-top: 0;
 
   .label {
     font-weight: 600;

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { COOL_WHITE, PRIMARY_BLUE } from './colors';
 
 export const Box = styled.div`
+  border-radius: 7px;
   background-color: ${COOL_WHITE};
   box-shadow: 2px 3px 12px rgba(0, 0, 0, 0.2);
   margin: ${props => props.margin || '15px 0'};
@@ -19,6 +20,7 @@ export const Button = styled.button`
   font-size: 1rem;
   font-weight: 700;
   padding: 0.8em 1.5em;
+  margin-right: 15px;
   text-transform: uppercase;
   transition: all 100ms ease-out;
   cursor: pointer;
@@ -28,6 +30,18 @@ export const Button = styled.button`
     background-color: #fff;
     outline 3px solid ${PRIMARY_BLUE};
   }
+
+  ${props =>
+    props.danger &&
+    `
+    background-color: darkred;
+
+    &:hover, &:active {
+    color: darkred;
+    background-color: #fff;
+    outline 3px solid darkred;
+  }
+  `}
 `;
 
 // TEXT
