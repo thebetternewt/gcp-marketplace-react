@@ -10,8 +10,9 @@ const ProfileItem = styled(Box)`
   flex-direction: column;
   justify-content: space-between;
   text-align: left;
-  animation-duration: 1s;
+  animation-duration: 300ms;
   animation-name: fadeup;
+  animation-timing-function: ease-out;
 
   @keyframes fadeup {
     from {
