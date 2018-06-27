@@ -15,6 +15,7 @@ import Profiles from './components/profiles/Profiles';
 import ProfilePage from './components/profiles/ProfilePage';
 import Dashboard from './components/profiles/Dashboard';
 import CreateProfile from './components/profiles/CreateProfile';
+import EditProfile from './components/profiles/EditProfile';
 import { setCurrentUser, logoutUser } from './store/actions/authActions';
 import { firebase } from './firebase';
 
@@ -68,6 +69,9 @@ class App extends Component {
               path="/create-profile"
               component={CreateProfile}
             />
+          </Switch>
+          <Switch>
+            <PrivateRoute exact path="/edit-profile" component={EditProfile} />
           </Switch>
           <Switch>
             <PrivateRoute

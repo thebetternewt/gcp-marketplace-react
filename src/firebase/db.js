@@ -23,39 +23,45 @@ export const doGetUser = id => {
 
 export const doGetProfiles = () => db.collection('profiles').get();
 
-export const doCreateProfile = profileData => {
-  const userId = auth.currentUser.uid;
-  const userRef = db.collection('users').doc(userId);
-
-  return db
+export const doGetProfileByUser = userId =>
+  db
     .collection('profiles')
-    .doc(profileData.handle)
-    .set({
-      ...profileData,
-      user: userRef
-    });
-};
-
-export const doGetProfileByUser = userId => {
-  const userRef = db.collection('users').doc(userId);
-
-  return db
-    .collection('profiles')
-    .where('user', '==', userRef)
+    .where('user', '==', userId)
     .limit(1)
     .get();
-};
 
 export const doGetProfileByHandle = handle =>
   db
     .collection('profiles')
-    .doc(handle)
+    .where('handle', '==', handle)
+    .limit(1)
     .get();
 
-export const doGetProfileRefByHandle = handle =>
-  db.collection('profiles').doc(handle);
+export const doCreateProfile = profileData =>
+  db
+    .collection('profiles')
+    .doc()
+    .set({
+      ...profileData,
+      user: auth.currentUser.uid
+    });
+
+export const doUpdateProfile = async profileData => {
+  const snap = await db
+    .collection('profiles')
+    .where('user', '==', auth.currentUser.uid)
+    .limit(1)
+    .get();
+  const profileId = snap.docs[0].id;
+  const profileRef = db.collection('profiles').doc(profileId);
+
+  profileRef.update({
+    ...profileData
+  });
+};
 
 export const doDeleteAccount = () => {
+  // TODO: MAKE SURE THIS WORKS
   // Delete current user and profile
   const userId = auth.currentUser.uid;
   const userRef = db.collection('users').doc(userId);
