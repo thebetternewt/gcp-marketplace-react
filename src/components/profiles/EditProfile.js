@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { Box, Button } from '../UI';
 import ContentContainer from '../common/ContentContainer';
 import { updateProfile } from '../../store/actions/profileActions';
+import { clearErrors } from '../../store/actions/errorActions';
 
 class EditProfile extends Component {
   state = {
@@ -20,15 +21,19 @@ class EditProfile extends Component {
     linkedin: this.props.profile.linkedin,
     youtube: this.props.profile.youtube,
     instagram: this.props.profile.instagram,
-    errors: {}
+    errors: this.props.errors
   };
 
-  static getDerivedStateFromProps(nextProps) {
+  static getDerivedStateFromProps = nextProps => {
     // Return state object
     return {
-      errors: nextProps.errors || {}
+      errors: nextProps.errors
     };
-  }
+  };
+
+  componentWillUnmount = () => {
+    this.props.clearErrors();
+  };
 
   // Handle input value changes
   handleChange = e => {
@@ -183,7 +188,9 @@ EditProfile.propTypes = {
   user: PropTypes.shape().isRequired,
   profile: PropTypes.shape().isRequired,
   updateProfile: PropTypes.func.isRequired,
-  history: PropTypes.shape().isRequired
+  clearErrors: PropTypes.func.isRequired,
+  history: PropTypes.shape().isRequired,
+  errors: PropTypes.shape().isRequired
 };
 
 const mapStateToProps = state => ({
@@ -194,7 +201,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { updateProfile }
+  { updateProfile, clearErrors }
 )(withRouter(EditProfile));
 
 const H1 = styled.h1`

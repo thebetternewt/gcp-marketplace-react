@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { Box, Button } from '../UI';
 import ContentContainer from '../common/ContentContainer';
 import { createProfile } from '../../store/actions/profileActions';
+import { clearErrors } from '../../store/actions/errorActions';
 
 class CreateProfile extends Component {
   state = {
@@ -20,13 +21,13 @@ class CreateProfile extends Component {
     linkedin: '',
     youtube: '',
     instagram: '',
-    errors: {}
+    errors: this.props.errors || {}
   };
 
-  componentWillReceiveProps = nextProps => {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
+  static getDerivedStateFromProps = nextProps => ({ errors: nextProps.errors });
+
+  componentWillUnmount = () => {
+    this.props.clearErrors();
   };
 
   // Handle input value changes
@@ -181,6 +182,7 @@ class CreateProfile extends Component {
 CreateProfile.propTypes = {
   user: PropTypes.shape().isRequired,
   createProfile: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   errors: PropTypes.shape().isRequired,
   history: PropTypes.shape().isRequired
 };
@@ -193,7 +195,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { createProfile }
+  { createProfile, clearErrors }
 )(withRouter(CreateProfile));
 
 const H1 = styled.h1`
