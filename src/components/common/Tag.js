@@ -5,7 +5,7 @@ const Tag = styled.span`
   align-items: center;
   background-color: ${props => props.bgColor};
   border-radius: 50px;
-  /* box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3); */
+  box-shadow: 2px 3px 12px rgba(0, 0, 0, 0.2);
   display: inline-flex;
   height: 30px;
   margin: 3px 5px 3px 0;

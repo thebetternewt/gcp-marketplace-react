@@ -220,7 +220,8 @@ const Input = styled.input`
   border: none;
   outline: 2px solid #ddd;
   font-size: 1em;
-  min-width: 50%;
+  max-width: 400px;
+  width: 100%;
   padding: 10px;
 `;
 
