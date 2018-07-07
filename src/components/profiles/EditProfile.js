@@ -4,7 +4,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import { Box, Button } from '../UI';
+import {
+  Box,
+  Button,
+  Label,
+  Input,
+  TextArea,
+  ErrorMessage,
+  InputCounter,
+  InputInfo
+} from '../UI';
 import ContentContainer from '../common/ContentContainer';
 import { updateProfile } from '../../store/actions/profileActions';
 import { clearErrors } from '../../store/actions/errorActions';
@@ -141,6 +150,9 @@ class EditProfile extends Component {
 
             <Label htmlFor="bio">Bio:</Label>
             <TextArea name="bio" value={bio} onChange={this.handleChange} />
+            <InputCounter data={bio} maxLength={300}>
+              {bio.length}/300
+            </InputCounter>
             {errors.bio && <ErrorMessage>{errors.bio[0]}</ErrorMessage>}
 
             <Label htmlFor="skills">Skills:</Label>
@@ -208,41 +220,44 @@ const H1 = styled.h1`
   text-align: center;
 `;
 
-const Label = styled.label`
-  display: block;
-  color: #333;
-  font-size: 1.2em;
-  padding: 1rem 0 0.5rem;
-`;
+// const Label = styled.label`
+//   display: block;
+//   color: #333;
+//   font-size: 1.2em;
+//   padding: 1rem 0 0.5rem;
+// `;
 
-const Input = styled.input`
-  display: block;
-  border: none;
-  outline: 2px solid #ddd;
-  font-size: 1em;
-  max-width: 400px;
-  width: 100%;
-  padding: 10px;
-`;
+// const Input = styled.input`
+//   display: block;
+//   border: none;
+//   outline: 2px solid #ddd;
+//   font-size: 1em;
+//   max-width: 400px;
+//   width: 100%;
+//   padding: 10px;
+// `;
+// const InputCounter = styled.p`
+//   color: ${props => (props.data.length > props.maxLength ? 'red' : ' #444')};
+// `;
 
-const InputInfo = styled.p`
-  font-size: 0.8em;
-  opacity: 0.6;
-`;
+// const InputInfo = styled.p`
+//   font-size: 0.8em;
+//   opacity: 0.6;
+// `;
 
-const TextArea = styled.textarea`
-  display: block;
-  border: none;
-  outline: 2px solid #ddd;
-  font-size: 1em;
-  min-width: 100%;
-  height: 100px;
-  padding: 10px;
-`;
+// const TextArea = styled.textarea`
+//   display: block;
+//   border: none;
+//   outline: 2px solid #ddd;
+//   font-size: 1em;
+//   min-width: 100%;
+//   height: 100px;
+//   padding: 10px;
+// `;
 
-const ErrorMessage = styled.p`
-  color: red;
-`;
+// const ErrorMessage = styled.p`
+//   color: red;
+// `;
 
 const ProfileForm = styled.form`
   margin: 1rem 0 2rem;

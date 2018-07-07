@@ -52,3 +52,46 @@ export const H1 = styled.h1`
   margin-top: 1em;
   align-self: center;
 `;
+
+// FORMS
+export const Label = styled.label`
+  display: block;
+  color: #333;
+  font-size: 1.2em;
+  padding: 1rem 0 0.5rem;
+`;
+
+export const Input = styled.input`
+  display: block;
+  border: none;
+  outline: 2px solid #ddd;
+  font-size: 1em;
+  max-width: 400px;
+  width: 100%;
+  padding: 10px;
+`;
+export const InputCounter = styled.p`
+  display: block;
+  color: ${props => (props.data.length > props.maxLength ? 'red' : ' #777')};
+  text-align: right;
+`;
+
+export const InputInfo = styled.p`
+  font-size: 0.8em;
+  opacity: 0.6;
+`;
+
+export const TextArea = styled.textarea`
+  display: block;
+  border: none;
+  outline: 2px solid #ddd;
+  font-size: 1em;
+  min-width: 100%;
+  height: 100px;
+  padding: 10px;
+  font-family: inherit;
+`;
+
+export const ErrorMessage = styled.p`
+  color: red;
+`;
