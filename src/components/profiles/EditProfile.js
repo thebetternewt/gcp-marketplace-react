@@ -188,10 +188,10 @@ class EditProfile extends Component {
             <h4>Social Links</h4>
             {socialInputs}
           </ProfileForm>
+          <Button onClick={this.handleSubmit}>Submit</Button>
           {!validate.isEmpty(errors) && (
             <ErrorMessage>Something went wrong.</ErrorMessage>
           )}
-          <Button onClick={this.handleSubmit}>Submit</Button>
         </Box>
       </ContentContainer>
     );
