@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { COOL_WHITE, PRIMARY_BLUE } from './colors';
 
@@ -70,11 +71,23 @@ export const Input = styled.input`
   width: 100%;
   padding: 10px;
 `;
-export const InputCounter = styled.p`
-  display: block;
-  color: ${props => (props.data.length > props.maxLength ? 'red' : ' #777')};
-  text-align: right;
-`;
+
+export const InputCounter = props => {
+  const Counter = styled.p`
+    display: block;
+    color: ${({ data, maxLength }) => {
+      return data.length > maxLength ? 'red' : '#777';
+    }};
+    text-align: right;
+  `;
+
+  const { data, maxLength } = props;
+  return (
+    <Counter data={data} maxLength={maxLength}>
+      {data.length}/{maxLength}
+    </Counter>
+  );
+};
 
 export const InputInfo = styled.p`
   font-size: 0.8em;

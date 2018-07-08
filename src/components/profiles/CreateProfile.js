@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import validate from 'validate.js';
 
 import {
   Box,
@@ -145,9 +146,7 @@ class CreateProfile extends Component {
 
             <Label htmlFor="bio">Bio:</Label>
             <TextArea name="bio" value={bio} onChange={this.handleChange} />
-            <InputCounter data={bio} maxLength={300}>
-              {bio.length}/300
-            </InputCounter>
+            <InputCounter data={bio} maxLength={300} />
             {errors.bio && <ErrorMessage>{errors.bio[0]}</ErrorMessage>}
 
             <Label htmlFor="skills">Skills:</Label>
@@ -184,6 +183,9 @@ class CreateProfile extends Component {
             <h4>Social Links</h4>
             {socialInputs}
           </ProfileForm>
+          {!validate.isEmpty(errors) && (
+            <ErrorMessage>Something went wrong.</ErrorMessage>
+          )}
           <Button onClick={this.handleSubmit}>Submit</Button>
         </Box>
       </ContentContainer>
