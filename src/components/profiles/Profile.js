@@ -9,18 +9,13 @@ import ProfileImage from './ProfileImage';
 const Profile = props => {
   // const { categories } = profile;
 
-  const categories = [
-    'Web Development',
-    'Graphic Design',
-    'Programming',
-    'A Fourth Skill'
-  ];
+  const categories = ['Web Development', 'Graphic Design', 'Programming', 'A Fourth Skill'];
 
   const categoryTags = categories.map((cat, index) => (
     <Tag key={index} bgColor="yellow" text={cat} className="tag" />
   ));
 
-  const { name, bio, imgUrl, skills } = props.profile;
+  const { name, bio, imgUrl, skills, facebook, instagram, twitter, linkedin } = props.profile;
 
   let skillTags;
 
@@ -28,12 +23,7 @@ const Profile = props => {
     skillTags = skills
       .split(',')
       .map((skill, index) => (
-        <Tag
-          key={index}
-          bgColor="lightgreen"
-          text={skill.trim()}
-          className="tag"
-        />
+        <Tag key={index} bgColor="lightgreen" text={skill.trim()} className="tag" />
       ));
   }
 
@@ -44,18 +34,26 @@ const Profile = props => {
         <Name>{name}</Name>
         <SocialLinks>
           <ul>
-            <li>
-              <i className="fab fa-twitter" />
-            </li>
-            <li>
-              <i className="fab fa-facebook " />
-            </li>
-            <li>
-              <i className="fab fa-linkedin " />
-            </li>
-            <li>
-              <i className="fab fa-instagram " />
-            </li>
+            {twitter && (
+              <li>
+                <i className="fab fa-twitter" />
+              </li>
+            )}
+            {facebook && (
+              <li>
+                <i className="fab fa-facebook " />
+              </li>
+            )}
+            {linkedin && (
+              <li>
+                <i className="fab fa-linkedin " />
+              </li>
+            )}
+            {instagram && (
+              <li>
+                <i className="fab fa-instagram " />
+              </li>
+            )}
           </ul>
         </SocialLinks>
         <Categories>
@@ -165,11 +163,12 @@ const SocialLinks = styled.div`
   ul {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
     list-style: none;
     margin: 0 auto;
     max-width: 200px;
     padding: 0;
+    width: 100%;
 
     li {
       align-items: center;
@@ -179,8 +178,13 @@ const SocialLinks = styled.div`
       display: flex;
       font-size: 20px;
       height: 40px;
+      margin-right: 10px;
       justify-content: center;
       width: 40px;
+    }
+
+    li:last-child {
+      margin-right: 0px;
     }
   }
 `;
