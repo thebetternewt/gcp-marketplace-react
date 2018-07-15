@@ -1,5 +1,5 @@
-import { db } from '../../../firebase/firebase';
-import { collectionKey } from './constants';
+import { db } from "../../../firebase/firebase";
+import { collectionKey } from "./constants";
 /**
  * Handles database interactions for a user's categories
  */
@@ -20,15 +20,6 @@ class Categories {
    * @async
    */
   async get() {
-    // db.collection('cities')
-    //   .get()
-    //   .then(querySnapshot => {
-    //     querySnapshot.forEach(doc => {
-    //       // doc.data() is never undefined for query doc snapshots
-    //       console.log(doc.id, ' => ', doc.data());
-    //     });
-    //   });
-
     return new Promise(async (resolve, reject) => {
       db.collection(collectionKey)
         .get()
