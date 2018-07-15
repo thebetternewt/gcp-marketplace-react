@@ -18,6 +18,7 @@ import {
 import ContentContainer from '../common/ContentContainer';
 import { updateProfile } from '../../store/actions/profileActions';
 import { clearErrors } from '../../store/actions/errorActions';
+import { getCategories } from '../../store/actions/categories';
 
 class EditProfile extends Component {
   state = {
@@ -25,6 +26,7 @@ class EditProfile extends Component {
     bio: this.props.profile.bio,
     location: this.props.profile.location,
     skills: this.props.profile.skills,
+    categories: this.props.profile.categories,
     website: this.props.profile.website,
     twitter: this.props.profile.twitter,
     facebook: this.props.profile.facebook,
@@ -40,6 +42,12 @@ class EditProfile extends Component {
       errors: nextProps.errors
     };
   };
+
+  componentDidMount() {
+    // Getting categories to allow user to add/subtract categories
+    this.props.getCategories();
+  }
+  
 
   componentWillUnmount = () => {
     this.props.clearErrors();
@@ -59,6 +67,7 @@ class EditProfile extends Component {
       handle: this.state.handle,
       bio: this.state.bio,
       skills: this.state.skills,
+      categories: this.state.categories, 
       location: this.state.location,
       website: this.state.website,
       twitter: this.state.twitter,
@@ -203,6 +212,7 @@ EditProfile.propTypes = {
   profile: PropTypes.shape().isRequired,
   updateProfile: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
+  getCategories: PropTypes.func.isRequired,
   history: PropTypes.shape().isRequired,
   errors: PropTypes.shape().isRequired
 };
@@ -215,7 +225,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { updateProfile, clearErrors }
+  { updateProfile, clearErrors, getCategories}
 )(withRouter(EditProfile));
 
 const H1 = styled.h1`
